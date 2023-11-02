@@ -85,13 +85,13 @@ function removeComponent(component_name){
   const component_id = toDashCase(component_name);
   const folderPath = `./components/${component_name}`;
 
-  // fs.rm(folderPath, { recursive: true }, (err) => {
-  //   if (err) {
-  //     console.error(`Error deleting folder: ${err.message}`);
-  //   } else {
-  //     console.log(`Folder "${folderPath}" has been deleted.`);
-  //   }
-  // });
+  fs.rm(folderPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error(`Error deleting folder: ${err.message}`);
+    } else {
+      console.log(`Folder "${folderPath}" has been deleted.`);
+    }
+  });
 
   const css_import = `@import "./components/${component_id}/${component_id}.css";`
   removeLineFromFile(`./index.css`, css_import);
