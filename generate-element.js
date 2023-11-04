@@ -140,7 +140,7 @@ if (require.main === module) {
       console.log(`You entered: ${inputString}`);
     }
 
-    rl.question('Please enter a two-word name for this component, if you enter only a single word, the component will be renamed blah-component: ', (inputString) => {
+    rl.question('Please enter a two-word name for this element, if you enter only a single word, the component will be renamed blah-component: ', (inputString) => {
       createNewComponent(inputString);
       rl.close();
     });

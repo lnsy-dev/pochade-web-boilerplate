@@ -101,12 +101,9 @@ function removeComponent(component_name){
 
   const route_import = `const ${ComponentName} = require('./components/${component_id}/${component_id}-route.js')(app);`
   removeLineFromFile(`./routes.js`, route_import);
-
-
 }
 
 if (require.main === module) {
-
 
     const readline = require('readline');
 
@@ -120,7 +117,7 @@ if (require.main === module) {
       console.log(`You entered: ${inputString}`);
     }
 
-    rl.question('Please enter a two-word name for this component, if you enter only a single word, the component will be renamed blah-component: ', (inputString) => {
+    rl.question('Please enter a two-word name for this element, if you enter only a single word, the component will be renamed blah-component: ', (inputString) => {
       removeComponent(inputString);
       rl.close();
     });
