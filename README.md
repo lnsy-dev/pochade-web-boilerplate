@@ -12,11 +12,13 @@ npm start
 
 ## Creating a New Element
 
+More information about HTML element: https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
+
 ```sh
 npm run new-element
 ```
 
-This will ask you to enter the name of your 
+This will ask you to enter the name of your element, and then it will generate a new element from the selected template.
 
 ### About Component Names
 
