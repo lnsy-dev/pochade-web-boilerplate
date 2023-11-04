@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "new-element": "node generate-element.js",
-    "delete-element": "node remove-element.js"
+    "new-component": "node generate-component.js",
+    "delete-component": "node remove-component.js"
   },
   "repository": {
     "type": "git",

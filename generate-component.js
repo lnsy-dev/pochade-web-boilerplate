@@ -123,10 +123,49 @@ function createNewComponent(component_name, component_template = 'default'){
       if(err) console.log(err);
     });
   });
+} // end Create New Component
+
+/**
+ * Gets all folders in a sub folder
+ * @param  {[type]} folderPath [description]
+ * @return {[type]}            [description]
+ */
+function getDirectoriesInSubfolder(folderPath = './component-templates') {
+  // Create an empty array to store the directory paths.
+  const directories = [];
+
+  // This is a recursive function that traverses directories and collects directory paths.
+  function collectDirectories(dir) {
+    // Read the contents of the current directory and store them in the 'files' array.
+    const files = fs.readdirSync(dir);
+
+    // Iterate through each file in the 'files' array.
+    for (const file of files) {
+      // Create the full path to the current file.
+      const filePath = path.join(dir, file);
+
+      // Check if the current file is a directory.
+      const isDirectory = fs.statSync(filePath).isDirectory();
+
+      // If the current file is a directory, add its path to the 'directories' array.
+      if (isDirectory) {
+        directories.push(filePath);
+
+        // Recursively call the 'collectDirectories' function to explore subdirectories.
+        collectDirectories(filePath);
+      }
+    }
+  }
+
+  // Start collecting directories by calling the 'collectDirectories' function with the provided folder path.
+  collectDirectories(folderPath);
+
+  // Return the array containing all the directory paths.
+  return directories;
 }
 
-if (require.main === module) {
 
+if (require.main === module) {
 
     const readline = require('readline');
 
@@ -135,12 +174,18 @@ if (require.main === module) {
       output: process.stdout
     });
 
-    function processString(inputString) {
-      // Replace this with the actual function you want to run with the input string
-      console.log(`You entered: ${inputString}`);
-    }
+    const directories = getDirectoriesInSubfolder().map(d => {
+      return d.split('/').pop();
+    });
 
-    rl.question('Please enter a two-word name for this element, if you enter only a single word, the component will be renamed blah-component: ', (inputString) => {
+    const directories_list = directories.map((d,i) => {
+      return `${i}: ${d}`
+    });
+    console.log(directories_list);
+    rl.close();
+    return
+
+    rl.question(`Please enter a two-word name for this component, if you enter only a single word, the component will be renamed blah-component:`, (inputString) => {
       createNewComponent(inputString);
       rl.close();
     });
