@@ -24,8 +24,6 @@
 
 */
 
-
-
 const express = require( 'express' )
 const app = express()
 const server = require( 'http' ).Server( app )
@@ -37,7 +35,6 @@ let PORT = process.env.PORT
 if(!PORT){
   PORT = 3000
 }
-
 
 app.use(express.json());
 app.use('/', express.static('./components'));
