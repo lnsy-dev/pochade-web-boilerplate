@@ -35,7 +35,7 @@ It will also add this component to the routes.js, index.css and index.js files.
 
 ### About Component Names
 
-Each component name is composed of Two words. If you submit a single word 
+Each component name is composed of Two words. If you submit a single word the script will add -component at the end. This is to ensure compatibility with the HTML custom elements spec. 
 
 
 ## Deleting a Component
