@@ -76,15 +76,23 @@ function removeLineFromFile(filePath, lineToRemove) {
 */
 
 
-
-function removeComponent(component_name){
-  if(component_name.split(' ').length < 2){
+// Import required modules
+function removeComponent(component_name) {
+  // Check if the component name consists of two or more words; if not, append '-component'
+  if (component_name.split(' ').length < 2) {
     component_name = component_name + '-component';
   }
+  
+  // Convert component_name to CamelCase (e.g., 'my-component' becomes 'MyComponent')
   const ComponentName = toCamelCase(component_name);
+  
+  // Convert component_name to dash-case (e.g., 'MyComponent' becomes 'my-component')
   const component_id = toDashCase(component_name);
+  
+  // Define the path to the folder to be removed
   const folderPath = `./components/${component_name}`;
 
+  // Remove the folder recursively
   fs.rm(folderPath, { recursive: true }, (err) => {
     if (err) {
       console.error(`Error deleting folder: ${err.message}`);
@@ -93,39 +101,39 @@ function removeComponent(component_name){
     }
   });
 
+  // Generate CSS import statement and remove it from 'index.css'
   const css_import = `@import "./components/${component_id}/${component_id}.css";`
   removeLineFromFile(`./index.css`, css_import);
   
+  // Generate JavaScript import statement and remove it from 'index.js'
   const js_import = `import "./components/${component_id}/${component_id}.js";`
   removeLineFromFile('./index.js', js_import);
 
+  // Generate route import statement and remove it from 'routes.js'
   const route_import = `const ${ComponentName} = require('./components/${component_id}/${component_id}-route.js')(app);`
   removeLineFromFile(`./routes.js`, route_import);
 }
 
+// Check if the script is the main module
 if (require.main === module) {
+  // Import 'readline' module for user input
+  const readline = require('readline');
 
-    const readline = require('readline');
+  // Create a readline interface for user input
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
 
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
+  // Function to process user input
+  function processString(inputString) {
+    // Replace this with the actual function you want to run with the input string
+    console.log(`You entered: ${inputString}`);
+  }
 
-    function processString(inputString) {
-      // Replace this with the actual function you want to run with the input string
-      console.log(`You entered: ${inputString}`);
-    }
-
-    rl.question('Please enter a two-word name for this element, if you enter only a single word, the component will be renamed blah-component: ', (inputString) => {
-      removeComponent(inputString);
-      rl.close();
-    });
-
-
-    // // get the name from the argument
-    // const name = process.argv[2];
-    // console.log(`Creating a new component called ${name}!`);
-    // createNewComponent(name);
-
+  // Prompt the user for input and execute 'removeComponent' when a name is provided
+  rl.question('Please enter a two-word name for this element, if you enter only a single word, the component will be renamed blah-component: ', (inputString) => {
+    removeComponent(inputString);
+    rl.close(); // Close the readline interface
+  });
 }
