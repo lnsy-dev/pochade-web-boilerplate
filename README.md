@@ -1,4 +1,8 @@
-# vanilla-node-css-js-html-template
+# Pochade
+
+![alt text](/pochade.png)
+## Beautiful Boilerplate for Web Development
+
 A boilerplate for node.js projects with some helper scripts for vanilla HTML, JS and CSS projects. 
 
 It also has a few helper scripts that allow you to create Elements hooked up to the server quickly. 

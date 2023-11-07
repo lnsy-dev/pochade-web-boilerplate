@@ -24,27 +24,35 @@
 
 */
 
-const express = require( 'express' )
-const app = express()
-const server = require( 'http' ).Server( app )
+// Import required modules
+const express = require('express');  // Express.js framework for building web applications
+const app = express();              // Create an instance of the Express application
+const server = require('http').Server(app);  // Create an HTTP server using the Express app
 
-const dotenv = require("dotenv")
-dotenv.config()
+// Load environment variables from a .env file if present
+const dotenv = require("dotenv");
+dotenv.config();
 
-let PORT = process.env.PORT
-if(!PORT){
-  PORT = 3000
+// Set the PORT for the server
+let PORT = process.env.PORT; // Try to get the PORT from environment variables
+if (!PORT) {
+  PORT = 3000; // If PORT is not defined, default to 3000
 }
 
+// Configure middleware to handle JSON data in requests
 app.use(express.json());
-app.use('/', express.static('./components'));
-app.use('/components', express.static('./components'));
-app.use("/", express.static(__dirname + '/assets'));
-app.use("/index.css", express.static(__dirname + '/index.css'));
-app.use("/index.js", express.static(__dirname + '/index.js'));
 
+// Serve static files from the specified directories
+app.use('/', express.static('./components')); // Serve files in the 'components' directory at the root URL
+app.use('/components', express.static('./components')); // Serve files in the 'components' directory under '/components' URL
+app.use("/", express.static(__dirname + '/assets')); // Serve files in the 'assets' directory at the root URL
+app.use("/index.css", express.static(__dirname + '/index.css')); // Serve 'index.css' file at '/index.css' URL
+app.use("/index.js", express.static(__dirname + '/index.js')); // Serve 'index.js' file at '/index.js' URL
+
+// Import and use routes defined in the 'routes.js' module, passing the Express app as a parameter
 const routes = require('./routes.js')(app);
 
+// Start the server and listen on the specified PORT
 app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
