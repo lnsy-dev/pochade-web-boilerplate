@@ -38,6 +38,7 @@ if(!PORT){
 
 app.use(express.json());
 app.use('/', express.static('./components'));
+app.use('/components', express.static('./components'));
 app.use("/", express.static(__dirname + '/assets'));
 app.use("/index.css", express.static(__dirname + '/index.css'));
 app.use("/index.js", express.static(__dirname + '/index.js'));
