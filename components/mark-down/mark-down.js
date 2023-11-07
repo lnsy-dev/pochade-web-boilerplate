@@ -1,4 +1,4 @@
-import /* webpackIgnore: true */ "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
+import "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
 class MarkdownComponent extends HTMLElement {
   connectedCallback(){
     this.src = this.getAttribute('src'); 
