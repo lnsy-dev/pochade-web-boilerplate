@@ -2,10 +2,7 @@
 
   ${ComponentName} Server Code
 
-  To create an end point, open up hans-js and add... blah
-
-  @todo: write tutorial 
-
+  endpoint is available at /${component-id} 
 
 */
 
