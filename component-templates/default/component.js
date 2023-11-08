@@ -1,6 +1,7 @@
 /*
   ${ComponentName}
-
+  
+  Usage: 
   <${component-id}></${component-id}>
 
   See https://javascript.info/custom-elements for more information
