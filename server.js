@@ -44,6 +44,7 @@ app.use(express.json());
 
 // Serve static files from the specified directories
 app.use('/', express.static('./components')); // Serve files in the 'components' directory at the root URL
+
 app.use('/components', express.static('./components')); // Serve files in the 'components' directory under '/components' URL
 app.use("/", express.static(__dirname + '/assets')); // Serve files in the 'assets' directory at the root URL
 app.use("/index.css", express.static(__dirname + '/index.css')); // Serve 'index.css' file at '/index.css' URL

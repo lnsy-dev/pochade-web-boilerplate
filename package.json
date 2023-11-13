@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "dotenv": "^16.3.1",
+    "http": "^0.0.1-security",
     "https-pem": "^3.0.0"
   }
 }
