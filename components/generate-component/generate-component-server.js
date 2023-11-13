@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
-
+const root = process.cwd();
 
 
 /**
@@ -56,7 +56,7 @@ function createNewComponent(component_name, component_template = 'default') {
   console.log("Creating new component:", component_name, ComponentName, component_id);
   
   // Define the path for the new component's folder
-  const new_component_path = path.join(__dirname, 'components/' + component_id + '/');
+  const new_component_path = path.join(root, '/components/' + component_id + '/');
 
   // Create the new component's folder
   fs.mkdir(new_component_path, (error) => {
@@ -68,8 +68,8 @@ function createNewComponent(component_name, component_template = 'default') {
   });
 
   // Get the path for the component template
-  const template_path = path.join(__dirname, `component-templates/${component_template}`);
-
+  const template_path = path.join(root, `/component-templates/${component_template}`);
+  console.log(template_path);
   // Generate the new component's folder from the component-template folder
   fs.readdir(template_path, function (err, files) {
     if (err) {
@@ -100,7 +100,7 @@ function createNewComponent(component_name, component_template = 'default') {
 
   // Add CSS import statement to 'index.css'
   const css_import = `\n@import "./components/${component_id}/${component_id}.css";`
-  fs.appendFile(`./index.css`, css_import, (err) => {
+  fs.appendFile(`${root}/index.css`, css_import, (err) => {
     if (err) {
       console.error(err);
     } else {
@@ -110,7 +110,7 @@ function createNewComponent(component_name, component_template = 'default') {
 
   // Add JavaScript import statement to 'index.js'
   const js_import = `\nimport "./components/${component_id}/${component_id}.js";`
-  fs.appendFile(`./index.js`, js_import, (err) => {
+  fs.appendFile(`${root}/index.js`, js_import, (err) => {
     if (err) {
       console.error(err);
     } else {
@@ -118,7 +118,7 @@ function createNewComponent(component_name, component_template = 'default') {
     }
   });
 
-  const route_file_location = './routes.js';
+  const route_file_location = `${root}/routes.js`;
 
   // Add route import statement to 'routes.js'
   const route = `\nconst ${ComponentName} = require('./components/${component_id}/${component_id}-route.js')(app);`

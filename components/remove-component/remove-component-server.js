@@ -12,7 +12,7 @@
 
 const fs = require('fs');
 const path = require('path');
-
+const ROOT = process.cwd();
 
 /**
  * @param  {string} -- String to convert to Camel Case
@@ -90,7 +90,7 @@ function removeComponent(component_name) {
   const component_id = toDashCase(component_name);
   
   // Define the path to the folder to be removed
-  const folderPath = `./components/${component_name}`;
+  const folderPath = `${ROOT}/components/${component_name}`;
 
   // Remove the folder recursively
   fs.rm(folderPath, { recursive: true }, (err) => {

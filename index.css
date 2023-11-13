@@ -12,3 +12,5 @@
 
  */
 @import "./components/mark-down/mark-down.css";
+@import "./components/generate-component/generate-component.css";
+@import "./components/remove-component/remove-component.css";
