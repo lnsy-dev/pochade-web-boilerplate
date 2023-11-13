@@ -43,6 +43,8 @@ if (!PORT) {
 app.use(express.json());
 
 // Serve static files from the specified directories
+app.use('/', express.static('./notebook')); // Serve files in the 'components' directory at the root URL
+
 app.use('/', express.static('./components')); // Serve files in the 'components' directory at the root URL
 
 app.use('/components', express.static('./components')); // Serve files in the 'components' directory under '/components' URL
