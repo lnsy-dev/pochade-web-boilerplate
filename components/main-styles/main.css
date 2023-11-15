@@ -3,6 +3,6 @@ html {
 }
 
 body {
-  font-family: var(--main-font);
+/*  font-family: var(--main-font);*/
   max-width: 80em;
 }
