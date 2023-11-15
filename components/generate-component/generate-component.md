@@ -1,5 +1,11 @@
 # Generate Component
 
+## To Run
+
+```sh
+	npm run new-component
+```
+
 ## Introduction
 
 The Node.js Component Generator is a script designed to facilitate the creation of new components for a web application. It follows a convention for organizing components and provides an interactive interface for user input. The generated components include associated files such as JavaScript files, CSS files, and a route file.

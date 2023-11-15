@@ -1,5 +1,11 @@
 # Remove Component
 
+## To Run
+
+```sh
+	npm run delete-component
+```
+
 ## Introduction
 
 The Node.js Component Removal script facilitates the removal of a component and its associated import statements from the project. It ensures the cleanup of files, including the removal of the component folder and relevant import statements in the project's CSS, JavaScript, and route files.
