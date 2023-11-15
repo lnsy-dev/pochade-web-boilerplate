@@ -2,24 +2,36 @@
   logoComponent
   logo-component
 */
-logo-component {
-  display:block;
+:root {
+  --arrow-size: 7px;
+  --arrow-color: orange;
 }
 
+logo-component {
+  display:block;
+  position: fixed;
+  left: 1em;
+  top: 1em;
+  z-index: 9001;
+}
+
+
 .arrow-right {
+
   width: 0; 
   height: 0; 
-  border-top: 60px solid transparent;
-  border-bottom: 60px solid transparent;
+  border-top: var(--arrow-size) solid transparent;
+  border-bottom: var(--arrow-size) solid transparent;
   
-  border-left: 60px solid orange;
+  border-left: var(--arrow-size) solid var(--arrow-color);
 }
 
 .arrow-left {
+
   width: 0; 
   height: 0; 
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent; 
+  border-top: var(--arrow-size) solid transparent;
+  border-bottom: var(--arrow-size) solid transparent; 
   
-  border-right:10px solid orange; 
+  border-right:var(--arrow-size) solid var(--arrow-color); 
 }

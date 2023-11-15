@@ -21,7 +21,7 @@ class logoComponent extends HTMLElement {
   }
 
   async init(){
-    this.innerHTML = `<a href="/"><div class="arrow-left"></div></a>`;
+    this.innerHTML = `<a href="/" title="index"><div class="arrow-left"></div></a>`;
   }
 
 
