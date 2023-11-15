@@ -10,7 +10,13 @@
 <body>
   <h1>Pochade Notebook</h1>
 
-  <p>Please note that this folder will not get checked into github</p>
+  <mark-down src="index.md"></mark-down>
+  
+  <script>
+    window.addEventListener('hashchange', (e) => {
+      console.log(window.location.hash.slice(1));
+    })
+  </script>
 
   <ul id="plugins">
     <li><a href="/components/mark-down/mark-down.html">Mark Down</a></li>

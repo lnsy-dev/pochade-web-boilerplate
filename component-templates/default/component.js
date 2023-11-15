@@ -28,7 +28,7 @@ class ${ComponentName} extends HTMLElement {
 
 
   async fetchData(post = {}){
-    const response = await fetch("/hans-prompt", {
+    const response = await fetch("${component-id}", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
