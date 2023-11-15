@@ -35,3 +35,7 @@ logo-component {
   
   border-right:var(--arrow-size) solid var(--arrow-color); 
 }
+
+.pointer {
+  font-size: 18px;
+}
