@@ -18,24 +18,32 @@ class notebookRouter extends HTMLElement {
     // (can be called many times if an element is repeatedly added/removed)
     this.innerHTML = `notebookRouter initialized`;
     this.init();
+
   }
 
   async init(){
-    const data = await this.fetchData();
-    this.innerText = JSON.stringify(data);
+    window.addEventListener('hashchange', (e) => {
+      this.handleNewHash(window.location.hash.slice(1));
+    });
+
+    const loading_hash = window.location.hash.length > 0 ? window.location.hash.slice(1) : 'index'; 
+    this.handleNewHash(loading_hash);
   }
 
 
+  async handleNewHash(hash){
+    this.innerHTML = `<notifcation>Loading ${hash}</notification>`;
+    const data = await this.fetchData(hash + '.md'); 
+    this.innerHTML = `
+<mark-down>
+${data}
+</mark-down>`
+  }
 
-  async fetchData(post = {}){
-    const response = await fetch("notebook-router", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(post)
-    });
-    const data = response.json();
+  async fetchData(filename){
+    console.log(filename);
+    const data = await fetch(filename)
+        .then(res => res.text());
     return data;
   }
 

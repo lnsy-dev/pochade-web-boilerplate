@@ -10,13 +10,7 @@
 <body>
   <h1>Pochade Notebook</h1>
 
-  <mark-down src="index.md"></mark-down>
-  
-  <script>
-    window.addEventListener('hashchange', (e) => {
-      console.log(window.location.hash.slice(1));
-    })
-  </script>
+  <notebook-router></notebook-router>
 
   <ul id="plugins">
     <li><a href="/components/mark-down/mark-down.html">Mark Down</a></li>
