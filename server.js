@@ -48,6 +48,8 @@ app.use('/', express.static('./notebook')); // Serve files in the 'components' d
 app.use('/', express.static('./components')); // Serve files in the 'components' directory at the root URL
 
 app.use('/components', express.static('./components')); // Serve files in the 'components' directory under '/components' URL
+app.use('/', express.static('./docs')); // Serve files in the 'components' directory under '/components' URL
+
 app.use("/", express.static(__dirname + '/assets')); // Serve files in the 'assets' directory at the root URL
 app.use("/index.css", express.static(__dirname + '/index.css')); // Serve 'index.css' file at '/index.css' URL
 app.use("/index.js", express.static(__dirname + '/index.js')); // Serve 'index.js' file at '/index.js' URL

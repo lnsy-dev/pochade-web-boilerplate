@@ -39,6 +39,7 @@ this.innerHTML = `
 <mark-down>
 ${data}
 </mark-down>`
+// end markdown
   }
 
   async fetchData(filename){
@@ -63,9 +64,9 @@ ${data}
    * @param  {string} filename -- the string of the filename
    * @return {string}          the contents of the markdown file
    */
-  async searchForFile(filename){
+  // async searchForFile(filename){
 
-  }
+  // }
 
   disconnectedCallback() {
     // browser calls this method when the element is removed from the document

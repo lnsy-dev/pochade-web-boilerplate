@@ -1,7 +1,7 @@
 # Pochade Alpha 0.1
 
 ![alt text](/pochade.png)
-## A Romantic Boilerplate for Web Development
+## A Beautiful Boilerplate for Web Development
 
 A boilerplate for node.js projects with some helper scripts for vanilla HTML, JS and CSS projects. This project is alpha. 
 
