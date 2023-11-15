@@ -26,12 +26,15 @@ class notebookRouter extends HTMLElement {
       this.handleNewHash(window.location.hash.slice(1));
     });
 
-    const loading_hash = window.location.hash.length > 0 ? window.location.hash.slice(1) : 'index'; 
+    let loading_hash = window.location.hash.length > 0 ? window.location.hash.slice(1) : ''; 
     this.handleNewHash(loading_hash);
   }
 
 
   async handleNewHash(hash){
+    if(hash.length < 1){
+      hash = 'index';
+    }
     this.innerHTML = `<notifcation>Loading ${hash}</notification>`;
     const data = await this.fetchData(hash + '.md'); 
 // this text is formatted for proper markdown rendering.    
@@ -55,7 +58,6 @@ ${data}
           return `${filename} not found`;
           // return this.searchForFile(filename);
         });
-    console.log(data);
     return data;
   }
 
