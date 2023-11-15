@@ -13,7 +13,5 @@
  */
 @import "./components/main-styles/main-styles.css";
 @import "./components/mark-down/mark-down.css";
-@import "./components/generate-component/generate-component.css";
-@import "./components/remove-component/remove-component.css";
 @import "./components/notebook-router/notebook-router.css";
 @import "./components/logo-component/logo-component.css";

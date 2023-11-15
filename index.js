@@ -12,7 +12,5 @@
  */
 
 import "./components/mark-down/mark-down.js";
-import "./components/generate-component/generate-component.js";
-import "./components/remove-component/remove-component.js";
 import "./components/notebook-router/notebook-router.js";
 import "./components/logo-component/logo-component.js";
