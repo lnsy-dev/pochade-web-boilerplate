@@ -34,17 +34,37 @@ class notebookRouter extends HTMLElement {
   async handleNewHash(hash){
     this.innerHTML = `<notifcation>Loading ${hash}</notification>`;
     const data = await this.fetchData(hash + '.md'); 
-    this.innerHTML = `
+// this text is formatted for proper markdown rendering.    
+this.innerHTML = `
 <mark-down>
 ${data}
 </mark-down>`
   }
 
   async fetchData(filename){
-    console.log(filename);
     const data = await fetch(filename)
-        .then(res => res.text());
+        .then(res =>{
+
+          if (!res.ok) {
+            throw new Error('File not found (404)');
+          }
+          return res.text()
+        })
+        .catch(e => {
+          return `${filename} not found`;
+          // return this.searchForFile(filename);
+        });
+    console.log(data);
     return data;
+  }
+
+  /**
+   * If a markdown file returns 404, search for the file.
+   * @param  {string} filename -- the string of the filename
+   * @return {string}          the contents of the markdown file
+   */
+  async searchForFile(filename){
+
   }
 
   disconnectedCallback() {
