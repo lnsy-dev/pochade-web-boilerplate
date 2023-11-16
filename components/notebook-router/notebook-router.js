@@ -1,3 +1,4 @@
+
 /*
   notebookRouter
   
@@ -6,6 +7,42 @@
 
   See https://javascript.info/custom-elements for more information
 */
+
+function parseJSONFrontmatter(markdownContent) {
+  // Regular expression to match YAML or JSON frontmatter
+  const frontmatterRegex = /^---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*[\r\n]+/;
+
+  // Check if frontmatter exists in the markdown content
+  const match = markdownContent.match(frontmatterRegex);
+
+  if(match === null){
+    return {}
+  }
+
+  if (match && match[1]) {
+    // Extract the frontmatter string
+    const frontmatterString = match[1];
+
+    try {
+      // Parse the frontmatter string into a JavaScript object
+      const frontmatterObject = JSON.parse(frontmatterString);
+
+      return frontmatterObject;
+    } catch (error) {
+      console.error('Error parsing frontmatter:', error);
+      return {};
+    }
+  }
+
+  // If no frontmatter is found, return null
+  return null;
+}
+
+// Function to remove YAML front matter from a string
+function removeFrontMatter(content) {
+    const yamlRegex = /^---\n([\s\S]*?)\n---/;
+    return content.replace(yamlRegex, '').trim();
+}
 
 class notebookRouter extends HTMLElement {
   constructor() {
@@ -35,12 +72,23 @@ class notebookRouter extends HTMLElement {
     if(hash.length < 1){
       hash = 'index';
     }
-    this.innerHTML = `<notifcation>Loading ${hash}</notification>`;
+    this.innerHTML = `<notification>Loading ${hash}</notification>`;
     const data = await this.fetchData(hash + '.md'); 
+
+    const parsed_json = parseJSONFrontmatter(data);
+    const cleaned_data = removeFrontMatter(data);
+    const customEvent = new CustomEvent('loaded', {
+        detail: parsed_json,
+    });
+
+    // Dispatch the event on the "this" element
+    this.dispatchEvent(customEvent);
+
+
 // this text is formatted for proper markdown rendering.    
 this.innerHTML = `
 <mark-down>
-${data}
+${cleaned_data}
 </mark-down>`
 // end markdown
   }
