@@ -1,27 +1,94 @@
-# Markdown Component
+Certainly! Here's a basic documentation for the provided JavaScript file:
 
-The Markdown Component is a custom web component built using JavaScript that allows you to easily render and display Markdown content on a web page. This component is designed to be flexible and can accept Markdown content from either an attribute or an external file specified in the src attribute. It utilizes the marked library for parsing and rendering Markdown content.
+---
 
+## Markdown Component
 
-<mark-down></mark-down>
+### Introduction
 
-Use:
+The `MarkdownComponent` is a custom HTML element designed to render Markdown content. It utilizes the `marked` library for parsing and rendering Markdown, along with additional functionality for embedding Markdown content in a specific format and converting Wikimedia-style links to HTML links.
+
+### Usage
+
+To use the `MarkdownComponent` in an HTML document, include the following script tag:
 
 ```html
-	<script src="path/to/markdown-component.js"></script>
-
-	<mark-down src="path/to/remote/markdown-file.md"></mark-down>
-	<mark-down>**Markdown content goes here**</mark-down>
-
+<script type="module" src="path/to/markdown-component.js"></script>
 ```
 
-## Attributes
-**src:** (optional)
-**Type:** String
-**Default:** null
-**Description:** This attribute specifies the source URL of an external Markdown file. If this attribute is present, the component will fetch the content from the specified URL and render it. If the src attribute is not provided, the component will render the Markdown content inside the <mark-down> element.
+Then, use the custom element `<mark-down>` in your HTML:
 
-## Methods
+```html
+<mark-down src="path/to/markdown-file.md"></mark-down>
+```
 
-The Markdown Component doesn't expose any public methods, but it automatically processes and renders Markdown content when the connectedCallback is invoked.
+### Features
 
+#### Embedding Markdown Content
+
+Markdown content can be embedded using the following syntax:
+
+```markdown
+![[markdown-file-name]]
+```
+
+For example, `![[example]]` will be replaced with:
+
+```html
+<mark-down src="example.md"></mark-down>
+```
+
+#### Converting Wikimedia-style Links
+
+Wikimedia-style links, enclosed in double square brackets, are converted to HTML links. For instance:
+
+```markdown
+[[Link Text]]
+```
+
+Will be converted to:
+
+```html
+<a href="#Link Text">Link Text</a>
+```
+
+### Methods
+
+#### `embedMarkdown(text: string): string`
+
+This function takes a string of text and replaces instances of the embedded Markdown syntax with a custom HTML tag for rendering Markdown content.
+
+#### `convertWikimediaLinks(text: string): string`
+
+This function converts Wikimedia-style links in the provided text to HTML links.
+
+### Custom Element: `<mark-down>`
+
+#### Attributes
+
+- **src (optional):** Specifies the source URL of the Markdown file to fetch and render. If not provided, the inner content of the custom element will be used.
+
+#### Example
+
+```html
+<!-- Using the 'src' attribute to fetch and render Markdown content -->
+<mark-down src="path/to/markdown-file.md"></mark-down>
+
+<!-- Providing inner content for rendering -->
+<mark-down>
+  # Example Markdown Content
+  This is **bold** text.
+</mark-down>
+```
+
+### Dependencies
+
+- [marked](https://marked.js.org/): A Markdown parser and compiler for JavaScript.
+
+### License
+
+This JavaScript file is provided under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+Feel free to customize and expand this documentation based on the specific details and context of your project.
