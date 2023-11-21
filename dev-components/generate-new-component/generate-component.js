@@ -30,6 +30,7 @@ function toDashCase(str) {
   return str;
 }
 
+
 /**
  * Create a new component based on a provided name and an optional component template.
  * @param {string} component_name - A two-word string representing the new component's name.
@@ -38,7 +39,7 @@ function toDashCase(str) {
  */
 
 
-function createNewComponent(component_name, component_template = 'default', description = '') {
+async function createNewComponent(component_name, component_template = 'default', description = '') {
   // Check if the component name consists of two or more words; if not, append '-component'
   if (component_name.split(' ').length < 2) {
     component_name = component_name + '-component';
@@ -66,9 +67,8 @@ function createNewComponent(component_name, component_template = 'default', desc
 
   // Get the path for the component template
   const template_path = path.join(root, `./dev-components/generate-new-component/component-templates/${component_template}`);
-  console.log(template_path);
   // Generate the new component's folder from the component-template folder
-  fs.readdir(template_path, function (err, files) {
+  await fs.readdir(template_path, function (err, files) {
     if (err) {
       return console.log('Unable to scan directory: ' + err);
     } 
@@ -81,13 +81,51 @@ function createNewComponent(component_name, component_template = 'default', desc
       replaced_data = replaced_data.replace(/\${ComponentDescription}/g, description)
 
       // Determine the file type and generate the new file
+      /*
+      
+        GENERATE METADATA
+
+       */
       if (file === 'metadata.json') {
         fs.writeFileSync(new_component_path + 'metadata.json', replaced_data);
-      } else if (file === 'route.js') {
+      } 
+      /*
+        
+        GENERATE ROUTE FILE
+
+       */
+      else if (file === 'route.js') {
         const file_name = `${component_id}.route.js`; 
         const new_file_path = `${new_component_path}/${file_name}`;
         fs.writeFileSync(new_file_path, replaced_data);
-      } else {
+      } 
+
+      /*
+        GENERATE TESTS.JS FILE
+
+       */
+
+      else if (file === 'tests.js') {
+        const file_name = `${component_id}.tests.js`; 
+        const new_file_path = `${new_component_path}/${file_name}`;
+        fs.writeFileSync(new_file_path, replaced_data);
+      } 
+      /*
+        
+        GENERATE TESTS.HTML FILE
+
+       */
+      else if (file === 'tests.html') {
+        const file_name = `${component_id}.tests.html`; 
+        const new_file_path = `${new_component_path}/${file_name}`;
+        fs.writeFileSync(new_file_path, replaced_data);
+      } 
+      /*
+      
+        GENERATE ALL OTHER FILES
+
+       */
+      else {
         const file_suffix = file.split('.').pop();
         const file_name = `${component_id}.${file_suffix}`; 
         const new_file_path = `${new_component_path}/${file_name}`;
@@ -95,6 +133,7 @@ function createNewComponent(component_name, component_template = 'default', desc
       }
     });
   });
+
 
   // Add CSS import statement to 'index.css'
   const css_import = `\n@import "./components/${component_id}/${component_id}.css";`
@@ -106,6 +145,8 @@ function createNewComponent(component_name, component_template = 'default', desc
       console.log(`Appended ${component_name} to css`);
     }
   });
+
+
 
   // Add JavaScript import statement to 'index.js'
   const js_import = `\nimport "./components/${component_id}/${component_id}.js";`
@@ -119,19 +160,19 @@ function createNewComponent(component_name, component_template = 'default', desc
   });
 
   const route_file_location = `${root}/routes.js`;
-
   // Add route import statement to 'routes.js'
-  const route = `\nconst ${ComponentName} = require('./components/${component_id}/${component_id}-route.js')(app);`
+  const route = `\n  const ${ComponentName} = require('./components/${component_id}/${component_id}.route.js')(app);`
   fs.readFile(route_file_location, 'utf8', function(err, data){
     let splitArray = data.split('\n');
     splitArray = splitArray.slice(0,-1);
     splitArray.push(route);
+    splitArray.push('}');
     fs.writeFile(route_file_location, splitArray.join('\n'), function(err){
       if(err) console.log(err);
     });
   });
 
-  return "Created Component" 
+  return true 
 }
 
 module.exports = createNewComponent;

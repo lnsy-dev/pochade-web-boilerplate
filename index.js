@@ -9,4 +9,6 @@
     These files are compiled into dist/bundle.js when you run 
     npm run build. 
 
- */
+*/
+
+import "./components/test-component/test-component.js";
