@@ -8,6 +8,8 @@ const mocha = new Mocha({
 });
 
 
+
+ mocha.addFile('./components/lnsy-edit/lnsy-edit.tests.js');
 // Run the tests
 mocha.run((failures) => {
   process.exitCode = failures ? 1 : 0; // exit with non-zero status if there are failures

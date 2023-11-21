@@ -1,6 +1,6 @@
 import "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
 
-function convertWikimediaLinks(text) {
+function convertObsidianLinks(text) {
     // Regular expression to match Wikimedia-style links
     var wikiLinkRegex = /\[\[([^\]]+)\]\]/g;
     // Replace each match with the corresponding HTML link
@@ -27,7 +27,7 @@ class MarkdownComponent extends HTMLElement {
   }
 
   render(content){
-    const wikimedia_to_href = convertWikimediaLinks(content);
+    const wikimedia_to_href = convertObsidianLinks(content);
     this.innerHTML = marked.parse(wikimedia_to_href);
   }
 }

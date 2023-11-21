@@ -12,3 +12,4 @@
 */
 
 import "./components/mark-down/mark-down.js";
+import "./components/lnsy-edit/lnsy-edit.js";
