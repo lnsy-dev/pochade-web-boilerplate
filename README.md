@@ -1,7 +1,7 @@
-# Pochade Alpha 0.1
+# Pochade AI Authoring Environment
 
 ![alt text](/pochade.png)
-## A Beautiful Boilerplate for Web Development
+## A Beautiful Boilerplate for AI generated Projects
 
 ### What is a Pochade?
 
