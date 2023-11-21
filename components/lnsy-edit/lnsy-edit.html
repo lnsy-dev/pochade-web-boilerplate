@@ -8,6 +8,18 @@
   <title>lnsyEdit</title>
 </head>
 <body>
-  <mark-down src="./lnsy-edit.md"></mark-down>
+
+  <lnsy-edit id="lnsy_edit"></lnsy-edit>
+
+  <div id="result_div"></div>
+  <script>
+    lnsy_edit.addEventListener('save', (e) => {
+      const markdown = document.createElement('mark-down');
+      markdown.innerHTML = e.detail.content;
+      result_div.innerHTML = ' ';
+      result_div.appendChild(markdown)
+    })
+  </script>
+
 </body>
 </html>

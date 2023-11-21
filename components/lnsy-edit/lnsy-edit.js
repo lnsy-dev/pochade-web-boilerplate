@@ -102,24 +102,34 @@ class LNSYEdit extends HTMLElement {
   connectedCallback(){
     this.textarea = document.createElement('textarea')
     this.appendChild(this.textarea)
-      const editor = CodeMirror.fromTextArea(this.textarea, {
+    this.editor = CodeMirror.fromTextArea(this.textarea, {
     lineNumbers:false,
     mode:'markdown',
     theme:'lnsy-edit',
     autoCloseTags:true
   })
 
-  editor.setOption("extraKeys", {
+  this.editor.setOption("extraKeys", {
   Tab: function(cm) {
       var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
       cm.replaceSelection(spaces);
     }
   })
 
-  document.addEventListener('keydown', function(e){
+  this.addEventListener('keydown', (e) =>{
     if(e.ctrlKey && e.code === 'KeyS'){
       e.preventDefault()
-      console.log('save')
+      const save_event = new CustomEvent('save', {
+        detail: {
+          content: this.editor.getValue(),
+          timestamp: new Date().toISOString()
+        }
+      });
+
+      this.dispatchEvent(save_event);
+
+  // Dispatch the custom event on the document or any specific element
+
     }
   })
 
