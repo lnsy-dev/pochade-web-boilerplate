@@ -5,3 +5,11 @@
 mark-down {
   display:block;
 }
+
+hash-tag {
+  box-sizing: border-box;
+  background-color: var(--highlight-color);
+  cursor: pointer;
+}:hover {
+  filter: brightness(1.5);
+}

@@ -51,9 +51,10 @@ document.head.insertAdjacentHTML('beforeend', `
 
 
   lnsy-edit {
+    min-height: 100vh;
     font-family:  monospace !important;
     background-color: black;
-    padding: 2em 0 0 0;
+    padding: 0 1em 1em 0;
     margin: 0;
     color: white;
   }
@@ -106,7 +107,8 @@ class LNSYEdit extends HTMLElement {
     lineNumbers:false,
     mode:'markdown',
     theme:'lnsy-edit',
-    autoCloseTags:true
+    autoCloseTags:true,
+    lineWrapping: true
   })
 
   this.editor.setOption("extraKeys", {

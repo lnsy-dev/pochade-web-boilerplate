@@ -9,9 +9,10 @@
 </head>
 <body>
 
-  <lnsy-edit id="lnsy_edit"></lnsy-edit>
-
-  <div id="result_div"></div>
+  <two-columns>
+    <lnsy-edit id="lnsy_edit"></lnsy-edit>
+    <div id="result_div" style="padding:1em"></div>
+  </two-columns>
   <script>
     lnsy_edit.addEventListener('save', (e) => {
       const markdown = document.createElement('mark-down');

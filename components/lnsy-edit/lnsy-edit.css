@@ -5,3 +5,7 @@
 lnsy-edit {
   display:block;
 }
+
+.CodeMirror-sizer {
+  padding: 1em;
+}
