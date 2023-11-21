@@ -9,11 +9,6 @@ const mocha = new Mocha({
 
 
 // Run the tests
-
-mocha.addFile('./components/test-component/test-component.tests.js');
-mocha.addFile('./components/second-test/second-test.tests.js');
-
-// Run the tests
 mocha.run((failures) => {
   process.exitCode = failures ? 1 : 0; // exit with non-zero status if there are failures
 });

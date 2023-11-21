@@ -11,6 +11,4 @@
 
 */
 
-import "./components/test-component/test-component.js";
-import "./components/second-test/second-test.js";
 import "./components/mark-down/mark-down.js";
