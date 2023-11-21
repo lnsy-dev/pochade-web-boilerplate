@@ -73,7 +73,10 @@ async function createNewComponent(component_name, component_template = 'default'
       return console.log('Unable to scan directory: ' + err);
     } 
 
+    console.log(files);
+
     files.forEach(function (file) {
+      console.log('generating', file);
       // Read and replace placeholders in template files
       const file_data = fs.readFileSync(template_path + "/" + file, { encoding: 'utf8' });
       let replaced_data = file_data.replace(/\${component-id}/g, component_id);
@@ -98,6 +101,20 @@ async function createNewComponent(component_name, component_template = 'default'
         const file_name = `${component_id}.route.js`; 
         const new_file_path = `${new_component_path}/${file_name}`;
         fs.writeFileSync(new_file_path, replaced_data);
+
+        const route_file_location = `${root}/routes.js`;
+        // Add route import statement to 'routes.js'
+        fs.readFile(route_file_location, 'utf8', function(err, data){
+          let splitArray = data.split('\n');
+          splitArray = splitArray.slice(0,-1);
+          const route = `\n  const ${ComponentName} = require('./components/${component_id}/${component_id}.route.js')(app);`
+          splitArray.push(route);
+          splitArray.push('}');
+          console.log('FINAL FORM:', splitArray);
+          fs.writeFile(route_file_location, splitArray.join('\n'), function(err){
+            if(err) console.log(err);
+          });
+        });
       } 
 
       /*
@@ -109,7 +126,21 @@ async function createNewComponent(component_name, component_template = 'default'
         const file_name = `${component_id}.tests.js`; 
         const new_file_path = `${new_component_path}/${file_name}`;
         fs.writeFileSync(new_file_path, replaced_data);
-      } 
+        const test_file_location = `${root}/tests.js`;
+        fs.readFile(test_file_location, 'utf8', function(err, data){
+          let splitArray = data.split('\n');
+          splitArray = splitArray.slice(0,-4);
+          const test_route = `\n mocha.addFile('./components/${component_id}/${component_id}.tests.js');`
+          splitArray.push(test_route);
+          splitArray.push(`// Run the tests
+mocha.run((failures) => {
+  process.exitCode = failures ? 1 : 0; // exit with non-zero status if there are failures
+});`);
+        fs.writeFile(test_file_location, splitArray.join('\n'), function(err){
+          if(err) console.log(err);
+        });
+      })
+    } 
       /*
         
         GENERATE TESTS.HTML FILE
@@ -120,6 +151,48 @@ async function createNewComponent(component_name, component_template = 'default'
         const new_file_path = `${new_component_path}/${file_name}`;
         fs.writeFileSync(new_file_path, replaced_data);
       } 
+      /*
+      
+        GENERATE CSS FILE 
+
+       */
+      else if (file === 'component.css'){
+          // Add CSS import statement to 'index.css'
+        const file_name = `${component_id}.css`; 
+        const new_file_path = `${new_component_path}/${file_name}`;
+        fs.writeFileSync(new_file_path, replaced_data);
+
+        const css_import = `\n@import "./components/${component_id}/${component_id}.css";`
+        fs.appendFile(`${root}/index.css`, css_import, (err) => {
+          if (err) {
+            console.error(err);
+            return err;
+          } else {
+            console.log(`Appended ${component_name} to css`);
+          }
+        });
+
+      } 
+      /*
+        
+        Generate Component.JS file
+
+       */
+
+      else if (file === 'component.js'){
+        const file_name = `${component_id}.js`; 
+        const new_file_path = `${new_component_path}/${file_name}`;
+        fs.writeFileSync(new_file_path, replaced_data);
+        const js_import = `\nimport "./components/${component_id}/${component_id}.js";`
+        fs.appendFile(`${root}/index.js`, js_import, (err) => {
+          if (err) {
+            console.error(err);
+            return err;
+          } else {
+            console.log(`Appended ${component_name} to js`);
+          }
+        });
+      }
       /*
       
         GENERATE ALL OTHER FILES
@@ -135,43 +208,8 @@ async function createNewComponent(component_name, component_template = 'default'
   });
 
 
-  // Add CSS import statement to 'index.css'
-  const css_import = `\n@import "./components/${component_id}/${component_id}.css";`
-  fs.appendFile(`${root}/index.css`, css_import, (err) => {
-    if (err) {
-      console.error(err);
-      return err;
-    } else {
-      console.log(`Appended ${component_name} to css`);
-    }
-  });
-
-
 
   // Add JavaScript import statement to 'index.js'
-  const js_import = `\nimport "./components/${component_id}/${component_id}.js";`
-  fs.appendFile(`${root}/index.js`, js_import, (err) => {
-    if (err) {
-      console.error(err);
-      return err;
-    } else {
-      console.log(`Appended ${component_name} to js`);
-    }
-  });
-
-  const route_file_location = `${root}/routes.js`;
-  // Add route import statement to 'routes.js'
-  const route = `\n  const ${ComponentName} = require('./components/${component_id}/${component_id}.route.js')(app);`
-  fs.readFile(route_file_location, 'utf8', function(err, data){
-    let splitArray = data.split('\n');
-    splitArray = splitArray.slice(0,-1);
-    splitArray.push(route);
-    splitArray.push('}');
-    fs.writeFile(route_file_location, splitArray.join('\n'), function(err){
-      if(err) console.log(err);
-    });
-  });
-
   return true 
 }
 

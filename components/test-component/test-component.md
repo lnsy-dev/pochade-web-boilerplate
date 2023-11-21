@@ -1,6 +1,6 @@
 # testComponent
 
-tests
+blah
 
 ## Useage
 
