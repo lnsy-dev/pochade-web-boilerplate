@@ -51,8 +51,6 @@ document.head.insertAdjacentHTML('beforeend', `
 
 
   lnsy-edit {
-    min-height: 100vh;
-    font-family:  monospace !important;
     background-color: black;
     padding: 0 1em 1em 0;
     margin: 0;

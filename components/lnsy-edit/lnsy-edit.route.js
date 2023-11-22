@@ -28,4 +28,9 @@ module.exports = function (app) {
     // Sending the retrieved metadata as a JSON response
     res.json(data);
   });
+
+  app.post('/save-file', async function (req, res) {
+    const request_data = req.body;
+
+  })
 };
