@@ -1,12 +1,12 @@
 {
-  "name": "vanilla-node-css-js-html-boilerplate",
+  "name": "Pochade AI Notebook",
   "version": "0.5.0",
-  "description": "Boilerplate for Vanilla HTML, JS and CSS and Node.js ",
+  "description": "AI Aware notebooks",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
     "test": "mocha tests.js",
-    "new-component": "node ./components/generate-component/generate-component-server.js",
+    "new-component": "node ./dev-components/generate-component/generate-component-server.js",
     "delete-component": "node ./components/remove-component/remove-component-server.js",
     "build": "webpack"
   },
