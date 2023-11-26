@@ -50,6 +50,16 @@ class jsonEditorComponent extends HTMLElement {
           console.log('onChange', { updatedContent, previousContent, contentErrors, patchResult })
           this.content = updatedContent;
           this.setAttribute('values', JSON.stringify(this.content));
+
+          const save_event = new CustomEvent('save', {
+            detail: {
+              content: this.content,
+              timestamp: new Date().toISOString()
+            }
+          });
+
+          this.dispatchEvent(save_event);
+
         }
       }
     });

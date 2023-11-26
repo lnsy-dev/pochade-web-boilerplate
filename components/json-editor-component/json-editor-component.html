@@ -8,6 +8,17 @@
   <title>jsonEditorComponent</title>
 </head>
 <body>
+
+  <json-editor-component id="json_editor"></json-editor-component>
+
+  <div id="json_output"></div>
+  <script type="module">
+    json_editor.addEventListener('save', (e) => {
+      json_output.innerText = JSON.stringify(e.detail);
+    })
+  </script>
   <mark-down src="./json-editor-component.md"></mark-down>
+
+
 </body>
 </html>
