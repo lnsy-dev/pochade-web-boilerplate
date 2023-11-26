@@ -13,3 +13,5 @@
 
 import "./components/mark-down/mark-down.js";
 import "./components/lnsy-edit/lnsy-edit.js";
+
+import "./components/json-editor-component/json-editor-component.js";
