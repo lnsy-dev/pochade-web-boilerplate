@@ -5,6 +5,7 @@
   font-family: Inter, sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
   --highlight-color: yellow;
+  --bg-color: black;
 }
 
 @supports (font-variation-settings: normal) {

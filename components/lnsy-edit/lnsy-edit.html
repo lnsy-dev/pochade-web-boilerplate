@@ -13,19 +13,50 @@
       margin: 0;
       color: white;
     }
+
+    header {
+      width: 100%;
+      padding: 1em;
+      background-color: black;
+      color: white;
+    }
+    #editor_route {
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
+    }
+
+    #result_div {
+      background-color: black;
+      color: white;
+    }
   </style>
   <title>lnsyEdit</title>
 </head>
 <body>
 
+  <header>
+    <label>
+      <input id="editor_route" name="route" type="string" value="notebooks/index.md">
+      <button id="save_button">Load</button>
+    </label>
+
+    <button id="save_file">Save</button>
+  </header>
   <two-columns>
-    <lnsy-edit id="lnsy_edit" file-path="./components/lnsy-edit/lnsy-edit.md"></lnsy-edit>
+
+    <lnsy-edit id="lnsy_edit" file-path="notebooks/index.md"></lnsy-edit>
     <div id="result_div" style="padding:1em"></div>
   </two-columns>
+
+  <json-editor-component id="json_editor"></json-editor-component>
+
   <script>
     lnsy_edit.addEventListener('save', (e) => {
       const markdown = document.createElement('mark-down');
       markdown.innerHTML = e.detail.content;
+      const json_content = json_editor.getAttribute('value');
+
       result_div.innerHTML = ' ';
       result_div.appendChild(markdown)
     })

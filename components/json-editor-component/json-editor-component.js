@@ -24,7 +24,6 @@ class jsonEditorComponent extends HTMLElement {
   connectedCallback(){
     // browser calls this method when the element is added to the document
     // (can be called many times if an element is repeatedly added/removed)
-    this.innerHTML = `jsonEditorComponent initialized`;
 
     this.content = this.getAttribute('values');
     if(this.content === null){
@@ -63,9 +62,7 @@ class jsonEditorComponent extends HTMLElement {
         }
       }
     });
-
   }
-
 
   disconnectedCallback() {
     // browser calls this method when the element is removed from the document

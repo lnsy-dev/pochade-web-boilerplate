@@ -4,4 +4,7 @@
 */
 json-editor-component {
   display:block;
+  --jse-theme-color: var(--bg-color);
+  --jse-button-primary-background-highlight: var(--bg-color);
+  --jse-button-primary-background: var(--bg-color);
 }

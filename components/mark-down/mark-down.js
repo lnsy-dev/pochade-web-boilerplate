@@ -46,7 +46,7 @@ customElements.define('mark-down', MarkdownComponent);
 class HashTag extends HTMLElement {
   connectedCallback(){
     this.addEventListener('click', (e) => {
-      console.log(this.innerText);
+      window.location.hash = this.innerText;
     });
   }
 

@@ -9,5 +9,8 @@ mark-down {
 hash-tag {
   box-sizing: border-box;
   background-color: var(--highlight-color);
+  color: black;
   cursor: pointer;
+  padding-left: 3pt;
+  padding-right: 3pt;
 }
