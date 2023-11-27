@@ -35,32 +35,63 @@
 </head>
 <body>
 
+  <router-component id="router_component"></router-component>
+
   <header>
     <label>
-      <input id="editor_route" name="route" type="string" value="notebooks/index.md">
-      <button id="save_button">Load</button>
+      <input id="editor_route" name="route" type="string" value="index.md">
+
+      <button id="load_button">Load</button>
     </label>
 
-    <button id="save_file">Save</button>
+    <button id="save_button">Save</button>
   </header>
   <two-columns>
 
-    <lnsy-edit id="lnsy_edit" file-path="notebooks/index.md"></lnsy-edit>
+    <lnsy-edit id="lnsy_edit" file-path="index.md"></lnsy-edit>
     <div id="result_div" style="padding:1em"></div>
   </two-columns>
 
   <json-editor-component id="json_editor"></json-editor-component>
 
   <script>
+
+    // load
+    // 
+    window.addEventListener('load', function(){
+      const url_values = router_component.getURLValues();
+      if(url_values.file_path){
+        editor_route.value = url_values.file_path;
+        lnsy_edit.loadFile(url_values.file_path);
+      }
+    })
+    router_component.addEventListener('hashChanged', (e) => {
+      console.log(e.detail);
+    })
+
+    router_component.addEventListener('paramsChanged', (e) => {
+      console.log(e.detail);
+    })
+
+    load_button.addEventListener('click', (e) => {
+      e.preventDefault();
+      lnsy_edit.loadFile(editor_route.value);
+    });
+
+    save_button.addEventListener('click', (e) => {
+      e.preventDefault();
+      lnsy_edit.saveFile(editor_route.value);
+    })
+
+    // Save
     lnsy_edit.addEventListener('save', (e) => {
       const markdown = document.createElement('mark-down');
       markdown.innerHTML = e.detail.content;
       const json_content = json_editor.getAttribute('value');
-
       result_div.innerHTML = ' ';
       result_div.appendChild(markdown)
     })
-  </script>
+      </script>
 
 </body>
 </html>

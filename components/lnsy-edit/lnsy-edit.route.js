@@ -8,6 +8,9 @@
 
 // Importing metadata from a JSON file (assuming metadata.json is in the same directory as this script)
 const metadata = require('./metadata.json');
+const path = require('path');
+const fs = require('fs');
+
 
 // Defining an async function with a placeholder name (lnsyEdit)
 async function lnsyEdit() {
@@ -30,7 +33,36 @@ module.exports = function (app) {
   });
 
   app.post('/save-file', async function (req, res) {
-    const request_data = req.body;
+    if (!req.body.content || !req.body.file_path) {
+        return res.status(400).json({ error: 'Both content and file_path are required in the request body' });
+    }
+    // Construct the file path based on the provided file_path
+    const filePath = path.join(__dirname, '../../notebooks', req.body.file_path);
 
-  })
+    // Write the content to the file
+    fs.writeFile(filePath, req.body.content, 'utf8', (err) => {
+      if (err) {
+          return res.status(500).json({ error: 'Error saving the file' });
+      }
+      res.json({ message: 'File saved successfully' });
+    });
+
+  });
+
+  app.post('/load-file', async function (req, res) {
+    const request_data = req.body;
+    if (!req.body.file_path) {
+      return res.status(400).json({ error: 'file_path is required in the request body' });
+    }
+    const filePath = path.join(__dirname, '../../notebooks', req.body.file_path);
+    console.log(filePath);
+    // Read the file
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        // Send the file content in the response
+        res.send(data);
+    });
+  });
 };

@@ -102,37 +102,95 @@ class LNSYEdit extends HTMLElement {
     this.textarea = document.createElement('textarea')
     this.appendChild(this.textarea)
     this.editor = CodeMirror.fromTextArea(this.textarea, {
-    lineNumbers:false,
-    mode:'markdown',
-    theme:'lnsy-edit',
-    autoCloseTags:true,
-    lineWrapping: true
-  })
+      lineNumbers:false,
+      mode:'markdown',
+      theme:'lnsy-edit',
+      autoCloseTags:true,
+      lineWrapping: true
+    });
 
-  this.editor.setOption("extraKeys", {
-  Tab: function(cm) {
-      var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-      cm.replaceSelection(spaces);
+    this.editor.setOption("extraKeys", {
+      Tab: function(cm) {
+        var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+        cm.replaceSelection(spaces);
+      }
+    });
+
+    this.addEventListener('keydown', (e) =>{
+      if(e.ctrlKey && e.code === 'KeyS'){
+        e.preventDefault()
+        this.handleNewData();
+        // Dispatch the custom event on the document or any specific element
+      }
+    });
+  }
+
+  handleNewData(){
+    const save_event = new CustomEvent('save', {
+      detail: {
+        content: this.editor.getValue(),
+        timestamp: new Date().toISOString()
+      }
+    });
+    this.dispatchEvent(save_event);
+  }
+
+  saveFile(path = null){
+    if(path === null){
+      path = this.getAttribute('file-path');
+      if(path === null){
+        return console.error('No Path');
+      }
     }
-  })
 
-  this.addEventListener('keydown', (e) =>{
-    if(e.ctrlKey && e.code === 'KeyS'){
-      e.preventDefault()
-      const save_event = new CustomEvent('save', {
-        detail: {
-          content: this.editor.getValue(),
-          timestamp: new Date().toISOString()
+    fetch('/save-file', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        content:this.editor.getValue(), 
+        file_path: path 
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data.message); // Log the server response message
+    })
+    .catch(error => {
+      console.error('Fetch Error:', error);
+    });
+  }
+
+  loadFile(file_path){
+    fetch('/load-file', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ file_path })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      });
+        return response.text();
+    })
+    .then(fileContent => {
+        // Handle the file content, for example, log it to the console
+        console.log('File Content:', fileContent);
+        this.editor.setValue(fileContent);
+        this.handleNewData()
 
-      this.dispatchEvent(save_event);
-
-  // Dispatch the custom event on the document or any specific element
-
-    }
-  })
-
+    })
+    .catch(error => {
+        console.error('Fetch Error:', error);
+    });
 
   }
 
