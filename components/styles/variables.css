@@ -4,7 +4,7 @@
 :root {
   font-family: Inter, sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-  --highlight-color: yellow;
+  --highlight-color: #E3F42ECC;
   --bg-color: black;
 }
 

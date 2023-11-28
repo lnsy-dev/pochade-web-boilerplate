@@ -2,9 +2,10 @@
   jsonEditorComponent
   json-editor-component
 */
-json-editor-component {
+json-editor {
   display:block;
   --jse-theme-color: var(--bg-color);
   --jse-button-primary-background-highlight: var(--bg-color);
   --jse-button-primary-background: var(--bg-color);
 }
+

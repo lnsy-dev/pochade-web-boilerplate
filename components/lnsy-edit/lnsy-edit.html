@@ -52,19 +52,138 @@
     <div id="result_div" style="padding:1em"></div>
   </two-columns>
 
-  <json-editor-component id="json_editor"></json-editor-component>
+  <json-editor id="json_editor" value="{}"></json-editor>
 
   <script>
 
-    // load
-    // 
-    window.addEventListener('load', function(){
+    function renderMarkdown(content){
+      console.log(content);
+      const markdown = document.createElement('mark-down');
+      markdown.innerHTML = content;
+      result_div.innerHTML = ' ';
+      result_div.appendChild(markdown);
+    }
+
+
+    function saveFile(){
+
+      const path = editor_route.value;
+
+      const markdown_content = lnsy_edit.editor.getValue();
+      const json_content = json_editor.editor.get();
+      const content = 
+`---
+${JSON.stringify(json_content.json)}
+---
+      ${markdown_content}
+      `
+
+      if(path === null){
+        return console.error('Path Required');
+      }
+
+      fetch('/save-file', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          content,
+          file_path: path 
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data.message); // Log the server response message
+      })
+      .catch(error => {
+        console.error('Fetch Error:', error);
+      });
+    }
+
+    function loadFile(file_path){
+      return fetch('/load-file', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ file_path })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.text();
+      })
+      .then(fileContent => {
+
+          // Handle the file content, for example, log it to the console
+          const json = parseJSONFrontmatter(fileContent);
+          json_editor.updateData(json);
+          const cleaned_content = removeFrontMatter(fileContent);
+          lnsy_edit.editor.setValue(cleaned_content);
+          renderMarkdown(cleaned_content);
+          console.log(cleaned_content);
+
+      })
+      .catch(error => {
+          console.error('Fetch Error:', error);
+      });
+
+    }
+
+    function parseJSONFrontmatter(markdownContent) {
+      // Regular expression to match YAML or JSON frontmatter
+      const frontmatterRegex = /^---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*[\r\n]+/;
+
+      // Check if frontmatter exists in the markdown content
+      const match = markdownContent.match(frontmatterRegex);
+
+      if(match === null){
+        return {}
+      }
+
+      if (match && match[1]) {
+        // Extract the frontmatter string
+        const frontmatterString = match[1];
+
+        try {
+          // Parse the frontmatter string into a JavaScript object
+          const frontmatterObject = JSON.parse(frontmatterString);
+
+          return frontmatterObject;
+        } catch (error) {
+          console.error('Error parsing frontmatter:', error);
+          return {};
+        }
+      }
+
+      // If no frontmatter is found, return null
+      return null;
+    }
+
+    // Function to remove YAML front matter from a string
+    function removeFrontMatter(content) {
+        const yamlRegex = /^---\n([\s\S]*?)\n---/;
+        return content.replace(yamlRegex, '').trim();
+    }
+
+    // What happens when the window first loads
+    window.addEventListener('load', async function(){
+      // get the URL Values, use it to load a file
       const url_values = router_component.getURLValues();
       if(url_values.file_path){
         editor_route.value = url_values.file_path;
-        lnsy_edit.loadFile(url_values.file_path);
       }
+      loadFile(editor_route.value);
+
     })
+
     router_component.addEventListener('hashChanged', (e) => {
       console.log(e.detail);
     })
@@ -73,23 +192,19 @@
       console.log(e.detail);
     })
 
-    load_button.addEventListener('click', (e) => {
+    load_button.addEventListener('click', async (e) => {
       e.preventDefault();
-      lnsy_edit.loadFile(editor_route.value);
+      loadFile(editor_route.value);
     });
 
     save_button.addEventListener('click', (e) => {
       e.preventDefault();
-      lnsy_edit.saveFile(editor_route.value);
+      saveFile(editor_route.value, lnsy_edit.editor.getValue());
     })
 
     // Save
     lnsy_edit.addEventListener('save', (e) => {
-      const markdown = document.createElement('mark-down');
-      markdown.innerHTML = e.detail.content;
-      const json_content = json_editor.getAttribute('value');
-      result_div.innerHTML = ' ';
-      result_div.appendChild(markdown)
+      saveFile();
     })
       </script>
 

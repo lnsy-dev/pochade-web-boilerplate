@@ -25,7 +25,7 @@ class jsonEditorComponent extends HTMLElement {
     // browser calls this method when the element is added to the document
     // (can be called many times if an element is repeatedly added/removed)
 
-    this.content = this.getAttribute('values');
+    this.content = this.getAttribute('value');
     if(this.content === null){
       this.content = {}
     } else {
@@ -40,15 +40,16 @@ class jsonEditorComponent extends HTMLElement {
   }
 
   async init(){
+
+    console.log(this.content);
     this.editor = new JSONEditor({
       target: this,
       props: {
-        content: this.content,
+        content: {json: this.content},
         onChange: (updatedContent, previousContent, { contentErrors, patchResult }) => {
           // content is an object { json: JSONValue } | { text: string }
           console.log('onChange', { updatedContent, previousContent, contentErrors, patchResult })
           this.content = updatedContent;
-          this.setAttribute('values', JSON.stringify(this.content));
           const save_event = new CustomEvent('save', {
             detail: {
               content: this.content,
@@ -63,25 +64,26 @@ class jsonEditorComponent extends HTMLElement {
     });
   }
 
-  disconnectedCallback() {
-    // browser calls this method when the element is removed from the document
-    // (can be called many times if an element is repeatedly added/removed)
-  }
-
-  adoptedCallback() {
-    // called when the element is moved to a new document
-    // (happens in document.adoptNode, very rarely used)
+  updateData(value){
+    const content = {
+      json: value
+    }
+    this.editor.set(content);
+  
   }
 
   static get observedAttributes() {
-    return [];
+    return ['values'];
   }
 
   attributeChangedCallback(name, old_value, new_value){
     switch(name){
+    case "values":
+      this.updateData(new_value);
+      break;
       default:
     }
   }
 }
 
-customElements.define('json-editor-component', jsonEditorComponent);
+customElements.define('json-editor', jsonEditorComponent);
