@@ -40,15 +40,13 @@ class jsonEditorComponent extends HTMLElement {
   }
 
   async init(){
-
-    console.log(this.content);
     this.editor = new JSONEditor({
       target: this,
       props: {
         content: {json: this.content},
         onChange: (updatedContent, previousContent, { contentErrors, patchResult }) => {
           // content is an object { json: JSONValue } | { text: string }
-          console.log('onChange', { updatedContent, previousContent, contentErrors, patchResult })
+          // console.log('onChange', { updatedContent, previousContent, contentErrors, patchResult })
           this.content = updatedContent;
           const save_event = new CustomEvent('save', {
             detail: {

@@ -57,7 +57,6 @@
   <script>
 
     function renderMarkdown(content){
-      console.log(content);
       const markdown = document.createElement('mark-down');
       markdown.innerHTML = content;
       result_div.innerHTML = ' ';
@@ -128,8 +127,6 @@ ${JSON.stringify(json_content.json)}
           const cleaned_content = removeFrontMatter(fileContent);
           lnsy_edit.editor.setValue(cleaned_content);
           renderMarkdown(cleaned_content);
-          console.log(cleaned_content);
-
       })
       .catch(error => {
           console.error('Fetch Error:', error);
@@ -184,13 +181,13 @@ ${JSON.stringify(json_content.json)}
 
     })
 
-    router_component.addEventListener('hashChanged', (e) => {
-      console.log(e.detail);
-    })
+    // router_component.addEventListener('hashChanged', (e) => {
+    //   console.log(e.detail);
+    // })
 
-    router_component.addEventListener('paramsChanged', (e) => {
-      console.log(e.detail);
-    })
+    // router_component.addEventListener('paramsChanged', (e) => {
+    //   console.log(e.detail);
+    // })
 
     load_button.addEventListener('click', async (e) => {
       e.preventDefault();
