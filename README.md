@@ -23,6 +23,14 @@ npm install
 npm start
 ```
 
+To create a new component go to:
+
+[Editor](http://localhost:3000/lnsy-edit/lnsy-edit.html?&file_path=index.md)
+
+[New Component](http://localhost:3000/dev-components/generate-new-component/generate-new-component.html)
+
+
+
 ## Creating a New Component
 
 Pochade Boilerplate includes some helper scripts to generate components that are hooked up to the server. 
