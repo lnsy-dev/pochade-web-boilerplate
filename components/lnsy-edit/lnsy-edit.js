@@ -30,7 +30,7 @@ class LNSYEdit extends HTMLElement {
     });
 
     /* Detect Save Key */
-    this.addEventListener('keydown', (e) =>{
+    window.addEventListener('keydown', (e) =>{
       if(e.ctrlKey && e.code === 'KeyS'){
         e.preventDefault()
         const save_event = new CustomEvent('save', {
@@ -43,7 +43,6 @@ class LNSYEdit extends HTMLElement {
       }
     });
   }
-
 
   static get observedAttributes() {
     return [];

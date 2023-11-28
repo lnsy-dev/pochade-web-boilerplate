@@ -4,6 +4,12 @@
 */
 mark-down {
   display:block;
+  line-height: 200%;
+  font-size: 12pt;
+}
+
+mark-down a {
+  color: var(--highlight-color);
 }
 
 hash-tag {

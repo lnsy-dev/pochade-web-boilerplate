@@ -4,8 +4,9 @@
 :root {
   font-family: Inter, sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-  --highlight-color: #E3F42ECC;
+  --highlight-color: #F57F00;
   --bg-color: black;
+  --fg-color: white;
 }
 
 @supports (font-variation-settings: normal) {
