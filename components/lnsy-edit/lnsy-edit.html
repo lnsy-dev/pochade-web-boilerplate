@@ -37,7 +37,8 @@
 
   <router-component id="router_component"></router-component>
 
-  <header>
+  <details class="header" id="header_summary">
+    <summary></summary>
     <label>
       <input id="editor_route" name="route" type="string" value="index.md">
 
@@ -45,14 +46,55 @@
     </label>
 
     <button id="save_button">Save</button>
-  </header>
+    <json-editor id="json_editor" value="{}"></json-editor>
+
+    <script>
+  var fullScreenButton = document.createElement('button');
+  fullScreenButton.classList.add('full-screen-button');
+fullScreenButton.innerText = 'Toggle Full Screen';
+
+// Add button to the document body
+header_summary.appendChild(fullScreenButton);
+
+// Function to toggle full screen mode
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    // Enter full screen
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+      document.documentElement.msRequestFullscreen();
+    }
+  } else {
+    // Exit full screen
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { // Firefox
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { // IE/Edge
+      document.msExitFullscreen();
+    }
+  }
+}
+
+// Attach click event listener to the full screen button
+fullScreenButton.addEventListener('click', toggleFullScreen);
+
+</script>
+
+  </details>
   <two-columns>
 
     <lnsy-edit id="lnsy_edit" file-path="index.md"></lnsy-edit>
     <div id="result_div" style="padding:1em"></div>
   </two-columns>
 
-  <json-editor id="json_editor" value="{}"></json-editor>
 
   <script>
 
@@ -204,56 +246,6 @@ ${markdown_content}`
     })
       </script>
 
-<style>
-  .full-screen-button {
-    position: fixed;
-    border: 1px solid white;
-    background-color: rgba(0,0,0,0.4);
-    right: 1em;
-    bottom: 1em;
-    color: white;
-    padding: 0.25em;
-  }
-</style>
-<script>
-  var fullScreenButton = document.createElement('button');
-  fullScreenButton.classList.add('full-screen-button');
-fullScreenButton.innerText = 'Toggle Full Screen';
-
-// Add button to the document body
-document.body.appendChild(fullScreenButton);
-
-// Function to toggle full screen mode
-function toggleFullScreen() {
-  if (!document.fullscreenElement) {
-    // Enter full screen
-    if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-      document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-      document.documentElement.webkitRequestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-      document.documentElement.msRequestFullscreen();
-    }
-  } else {
-    // Exit full screen
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) { // Firefox
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { // IE/Edge
-      document.msExitFullscreen();
-    }
-  }
-}
-
-// Attach click event listener to the full screen button
-fullScreenButton.addEventListener('click', toggleFullScreen);
-
-</script>
 
 </body>
 </html>
