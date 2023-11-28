@@ -4,8 +4,8 @@
 */
 mark-down {
   display:block;
-  line-height: 200%;
-  font-size: 12pt;
+  font-size: 10pt;
+  line-height: 150%;
 }
 
 mark-down a {

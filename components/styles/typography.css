@@ -1,3 +1,20 @@
+@import "https://rsms.me/inter/inter.css";
+
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+
+}
+
+@supports (font-variation-settings: normal) {
+  :root { font-family: InterVariable, sans-serif; }
+}
+
+h1, h2, h3, h4, h5 {
+  padding: 0.5em 0;
+  text-transform: uppercase;  
+}
+
 h1 {
   font-size: 200%;
   font-weight: bolder;
@@ -10,5 +27,17 @@ h2 {
 
 h3 {
   font-size: 116%;
+  font-weight: bolder;
+}
+
+code {
+  font-family: monospace;
+  background-color: rgba(255,255,255,0.1);
+  margin: 1em;
+  width: calc(100% - 2em);
+  display: block;
+}
+
+em {
   font-weight: bolder;
 }

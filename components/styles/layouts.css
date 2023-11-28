@@ -10,5 +10,6 @@ two-columns > * {
 }
 
 li {
-  list-style: disc;
+  list-style: square;
+  margin-left: 1em;
 }

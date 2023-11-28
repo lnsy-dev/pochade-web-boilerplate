@@ -2,11 +2,21 @@ import "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
 
 function wrapHashtags(text) {
   // Regular expression to find hashtags (words starting with #)
-  const hashtagRegex = /#([a-zA-Z0-9-]+)/g;
+  const hashtagRegex = /#([a-zA-Z0-9\-]+)/g;
   // Replace hashtags with <hash-tag>...</hash-tag>
   const result = text.replace(hashtagRegex, '<hash-tag>$1</hash-tag>');
   return result;
 }
+
+function setURLValues(obj){
+  let url = window.location.origin + window.location.pathname + '?'
+  Object.keys(obj).forEach(key => {
+    url += `&${key}=${obj[key]}`
+  })
+  history.pushState(obj, '', url)
+}
+
+
 
 function convertObsidianLinks(text) {
     // Regular expression to match Wikimedia-style links
@@ -46,7 +56,7 @@ customElements.define('mark-down', MarkdownComponent);
 class HashTag extends HTMLElement {
   connectedCallback(){
     this.addEventListener('click', (e) => {
-      window.location.hash = this.innerText;
+     setURLValues({'file_path':this.innerText + '.md'});
     });
   }
 
