@@ -10,8 +10,8 @@
     npm run build. 
 
 
- */
-@import "./components/main-styles/main-styles.css";
+*/
+@import "./components/styles/index.css";
 @import "./components/mark-down/mark-down.css";
-@import "./components/notebook-router/notebook-router.css";
-@import "./components/logo-component/logo-component.css";
+@import "./components/lnsy-edit/lnsy-edit.css";
+@import "./components/json-editor/json-editor-component.css";

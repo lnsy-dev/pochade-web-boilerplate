@@ -1,0 +1,15 @@
+two-columns {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+two-columns > * {
+  flex-basis: 50%;
+  max-width: 50%;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: square;
+  margin-left: 1em;
+}

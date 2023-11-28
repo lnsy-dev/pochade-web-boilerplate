@@ -1,11 +1,12 @@
 {
-  "name": "vanilla-node-css-js-html-boilerplate",
+  "name": "Pochade AI Notebook",
   "version": "0.5.0",
-  "description": "Boilerplate for Vanilla HTML, JS and CSS and Node.js ",
+  "description": "AI Aware notebooks",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "new-component": "node ./components/generate-component/generate-component-server.js",
+    "start": "nodemon server.js",
+    "test": "mocha tests.js",
+    "new-component": "node ./dev-components/generate-component/generate-component-server.js",
     "delete-component": "node ./components/remove-component/remove-component-server.js",
     "build": "webpack"
   },
@@ -28,11 +29,13 @@
   "devDependencies": {
     "babel-loader": "^9.1.3",
     "chai": "^4.3.10",
+    "chai-http": "^4.4.0",
     "css-loader": "^6.8.1",
     "express": "^4.18.2",
     "html-webpack-plugin": "^5.5.3",
     "imports-loader": "^4.0.1",
     "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
     "readline": "^1.3.0",
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
@@ -41,6 +44,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "http": "^0.0.1-security",
-    "https-pem": "^3.0.0"
+    "https-pem": "^3.0.0",
+    "marked": "^10.0.0"
   }
 }

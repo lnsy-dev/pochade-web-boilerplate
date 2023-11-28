@@ -1,4 +1,22 @@
+/*
+  markDown
+  mark-down
+*/
 mark-down {
   display:block;
+  font-size: 10pt;
+  line-height: 150%;
 }
 
+mark-down a {
+  color: var(--highlight-color);
+}
+
+hash-tag {
+  box-sizing: border-box;
+  background-color: var(--highlight-color);
+  color: black;
+  cursor: pointer;
+  padding-left: 3pt;
+  padding-right: 3pt;
+}

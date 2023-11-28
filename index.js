@@ -9,8 +9,8 @@
     These files are compiled into dist/bundle.js when you run 
     npm run build. 
 
- */
-
+*/
+import "./components/helpers/helpers.js";
 import "./components/mark-down/mark-down.js";
-import "./components/notebook-router/notebook-router.js";
-import "./components/logo-component/logo-component.js";
+import "./components/lnsy-edit/lnsy-edit.js";
+import "./components/json-editor/json-editor-component.js";

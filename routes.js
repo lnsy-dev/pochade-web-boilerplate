@@ -1,6 +1,6 @@
 module.exports = function(app, server) {  
-  // notebook router is not required yet
-  // const notebookRouter = require('./components/notebook-router/notebook-router-route.js')(app);
-  const mainStyles = require('./components/main-styles/main-styles-route.js')(app);
+  /* BEGIN GENERATED MODULES */ 
+  const generateComponent = require('./dev-components/generate-new-component/generate-new-component.route.js')(app);
 
+  const lnsyEdit = require('./components/lnsy-edit/lnsy-edit.route.js')(app);
 }

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/index.js" type="module"></script>
+  <link href="/index.css" rel="stylesheet" type="text/css">
+  <style>
+    lnsy-edit {
+      min-height: 100vh;
+      background-color: black;
+      padding: 0 1em 1em 0;
+      margin: 0;
+      color: white;
+    }
+
+    header {
+      width: 100%;
+      padding: 1em;
+      background-color: black;
+      color: white;
+    }
+    #editor_route {
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
+    }
+
+    #result_div {
+      background-color: black;
+      color: white;
+    }
+  </style>
+  <title>lnsyEdit</title>
+</head>
+<body>
+
+  <router-component id="router_component"></router-component>
+
+  <details class="header" id="header_summary">
+    <summary></summary>
+    <label>
+      <input id="editor_route" name="route" type="string" value="index.md">
+
+      <button id="load_button">Load</button>
+    </label>
+
+    <button id="save_button">Save</button>
+    <json-editor id="json_editor" value="{}"></json-editor>
+
+    <script>
+  var fullScreenButton = document.createElement('button');
+  fullScreenButton.classList.add('full-screen-button');
+fullScreenButton.innerText = 'Toggle Full Screen';
+
+// Add button to the document body
+header_summary.appendChild(fullScreenButton);
+
+// Function to toggle full screen mode
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    // Enter full screen
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+      document.documentElement.msRequestFullscreen();
+    }
+  } else {
+    // Exit full screen
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { // Firefox
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { // IE/Edge
+      document.msExitFullscreen();
+    }
+  }
+}
+
+// Attach click event listener to the full screen button
+fullScreenButton.addEventListener('click', toggleFullScreen);
+
+</script>
+
+  </details>
+  <two-columns>
+
+    <lnsy-edit id="lnsy_edit" file-path="index.md"></lnsy-edit>
+    <div id="result_div" style="padding:1em"></div>
+  </two-columns>
+
+
+  <script>
+
+    function renderMarkdown(content){
+      const markdown = document.createElement('mark-down');
+      markdown.innerHTML = content;
+      result_div.innerHTML = ' ';
+      result_div.appendChild(markdown);
+    }
+
+    function saveFile(){
+      const path = editor_route.value;
+      const markdown_content = lnsy_edit.editor.getValue();
+      const json_content = json_editor.editor.get();
+      const content = 
+`---
+${JSON.stringify(json_content.json)}
+---
+${markdown_content}`
+
+      renderMarkdown(markdown_content);
+
+      if(path === null){
+        return console.error('Path Required');
+      }
+
+      fetch('/save-file', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          content,
+          file_path: path 
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data.message); // Log the server response message
+      })
+      .catch(error => {
+        console.error('Fetch Error:', error);
+      });
+    }
+
+    function loadFile(file_path){
+      return fetch('/load-file', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ file_path })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.text();
+      })
+      .then(fileContent => {
+
+          // Handle the file content, for example, log it to the console
+          const json = parseJSONFrontmatter(fileContent);
+          json_editor.updateData(json);
+          const cleaned_content = removeFrontMatter(fileContent);
+          lnsy_edit.editor.setValue(cleaned_content);
+          renderMarkdown(cleaned_content);
+      })
+      .catch(error => {
+          console.error('Fetch Error:', error);
+      });
+
+    }
+
+    function parseJSONFrontmatter(markdownContent) {
+      // Regular expression to match YAML or JSON frontmatter
+      const frontmatterRegex = /^---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*[\r\n]+/;
+
+      // Check if frontmatter exists in the markdown content
+      const match = markdownContent.match(frontmatterRegex);
+
+      if(match === null){
+        return {}
+      }
+
+      if (match && match[1]) {
+        // Extract the frontmatter string
+        const frontmatterString = match[1];
+
+        try {
+          // Parse the frontmatter string into a JavaScript object
+          const frontmatterObject = JSON.parse(frontmatterString);
+
+          return frontmatterObject;
+        } catch (error) {
+          console.error('Error parsing frontmatter:', error);
+          return {};
+        }
+      }
+
+      // If no frontmatter is found, return null
+      return null;
+    }
+
+    // Function to remove YAML front matter from a string
+    function removeFrontMatter(content) {
+        const yamlRegex = /^---\n([\s\S]*?)\n---/;
+        return content.replace(yamlRegex, '').trim();
+    }
+
+    // What happens when the window first loads
+    window.addEventListener('load', async function(){
+      // get the URL Values, use it to load a file
+      const url_values = router_component.getURLValues();
+      if(url_values.file_path){
+        editor_route.value = url_values.file_path;
+      }
+      loadFile(editor_route.value);
+
+    });
+
+
+    // router_component.addEventListener('hashChanged', (e) => {
+    //   console.log(e.detail);
+    // })
+
+    router_component.addEventListener('paramsChanged', (e) => {
+      console.log(e.detail);
+    })
+
+    load_button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      loadFile(editor_route.value);
+    });
+
+    save_button.addEventListener('click', (e) => {
+      e.preventDefault();
+      saveFile(editor_route.value, lnsy_edit.editor.getValue());
+    })
+
+    // Save
+    lnsy_edit.addEventListener('save', (e) => {
+      saveFile();
+    })
+      </script>
+
+
+</body>
+</html>

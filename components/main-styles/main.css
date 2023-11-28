@@ -1,8 +1,0 @@
-html {
-  font-size: var(--font-size);
-}
-
-body {
-/*  font-family: var(--main-font);*/
-  max-width: 80em;
-}
