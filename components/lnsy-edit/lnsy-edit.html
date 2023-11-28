@@ -63,19 +63,15 @@
       result_div.appendChild(markdown);
     }
 
-
     function saveFile(){
-
       const path = editor_route.value;
-
       const markdown_content = lnsy_edit.editor.getValue();
       const json_content = json_editor.editor.get();
       const content = 
 `---
 ${JSON.stringify(json_content.json)}
 ---
-      ${markdown_content}
-      `
+${markdown_content}`
 
       if(path === null){
         return console.error('Path Required');
