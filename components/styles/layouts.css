@@ -8,3 +8,7 @@ two-columns > * {
   max-width: 50%;
   box-sizing: border-box;
 }
+
+li {
+  list-style: disc;
+}

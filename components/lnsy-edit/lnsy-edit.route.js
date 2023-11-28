@@ -55,11 +55,19 @@ module.exports = function (app) {
       return res.status(400).json({ error: 'file_path is required in the request body' });
     }
     const filePath = path.join(__dirname, '../../notebooks', req.body.file_path);
-    console.log(filePath);
     // Read the file
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
-            return res.status(404).json({ error: 'File not found' });
+          const new_file = 
+`---
+{"date-created":"${new Date()}"}
+---
+`;
+          fs.writeFile(filePath, new_file, 'utf8', (err) => {
+            if (err) {return res.status(500)}
+          });
+
+          return res.send(new_file)
         }
         // Send the file content in the response
         res.send(data);

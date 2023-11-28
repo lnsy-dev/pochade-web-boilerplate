@@ -73,6 +73,8 @@ ${JSON.stringify(json_content.json)}
 ---
 ${markdown_content}`
 
+      renderMarkdown(markdown_content);
+
       if(path === null){
         return console.error('Path Required');
       }
