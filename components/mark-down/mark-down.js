@@ -57,6 +57,7 @@ class HashTag extends HTMLElement {
   connectedCallback(){
     this.addEventListener('click', (e) => {
      setURLValues({'file_path':this.innerText + '.md'});
+     window.location.assign(window.location.href)
     });
   }
 

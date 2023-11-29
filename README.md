@@ -33,7 +33,8 @@ To create a new component go to:
 
 ## Creating a New Component
 
-Pochade Boilerplate includes some helper scripts to generate components that are hooked up to the server. 
+Go to the New component Page. It is located at http://localhost:3000/dev-components/generate-new-component/generate-new-component.html
+
 
 More information about HTML element: https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
 

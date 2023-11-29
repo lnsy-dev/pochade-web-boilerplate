@@ -2,3 +2,23 @@
 @import "./reset.css";
 @import "./typography.css";
 @import "./layouts.css";
+
+body {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+}
+
+input, textarea, select {
+  border: 1px solid var(--mid-tone-color);
+  background-color: transparent;
+  color: var(--fg-color);
+  padding: 0.5em;
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box; 
+
+}
+
+label {
+  padding-bottom: 0.5em;
+}
