@@ -3,4 +3,6 @@ module.exports = function(app, server) {
   const generateComponent = require('./dev-components/generate-new-component/generate-new-component.route.js')(app);
 
   const lnsyEdit = require('./components/lnsy-edit/lnsy-edit.route.js')(app);
+
+  const fileClerk = require('./components/file-clerk/file-clerk.route.js')(app);
 }

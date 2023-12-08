@@ -2,7 +2,7 @@ import "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
 
 function wrapHashtags(text) {
   // Regular expression to find hashtags (words starting with #)
-  const hashtagRegex = /#([a-zA-Z0-9\-]+)/g;
+  const hashtagRegex = /#([a-zA-Z0-9\-./]+)/g;
   // Replace hashtags with <hash-tag>...</hash-tag>
   const result = text.replace(hashtagRegex, '<hash-tag>$1</hash-tag>');
   return result;

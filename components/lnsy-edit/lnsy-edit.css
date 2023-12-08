@@ -13,13 +13,14 @@ padding: 1em;
 .header {
   background-color: rgba(0,0,0,0.7);
   position: fixed;
-  left: 0em;
-  top: 0em;
+  left: 0;
+  top: 0;
   z-index: 100;
   width: 100%;
 }
 
 .header summary {
+  padding-left: 1em;
   color: var(--highlight-color);
 }
 

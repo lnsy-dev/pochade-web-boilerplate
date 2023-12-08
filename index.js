@@ -14,3 +14,5 @@ import "./components/helpers/helpers.js";
 import "./components/mark-down/mark-down.js";
 import "./components/lnsy-edit/lnsy-edit.js";
 import "./components/json-editor/json-editor-component.js";
+
+import "./components/file-clerk/file-clerk.js";

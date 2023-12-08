@@ -29,8 +29,14 @@ code {
   font-family: monospace;
   background-color: rgba(255,255,255,0.1);
   margin: 1em;
-  width: calc(100% - 2em);
+  padding: 1em;
+  width: calc(100% - 4em);
   display: block;
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
 em {

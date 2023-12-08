@@ -1,0 +1,78 @@
+/*
+
+  fileClerk Server Code
+
+  endpoint is available at /file-clerk 
+
+*/
+
+// Importing metadata from a JSON file (assuming metadata.json is in the same directory as this script)
+const metadata = require('./metadata.json');
+
+// Defining an async function with a placeholder name (fileClerk)
+async function fileClerk() {
+  // This function simply returns the metadata, but it could be more complex in a real application.
+  return metadata;
+}
+
+// Exporting a function that takes an Express.js app as a parameter
+module.exports = function (app) {
+  // Setting up a route handler for POST requests on a dynamic endpoint (file-clerk)
+  app.post('/file-clerk', async function (req, res) {
+    // Extracting the request data from the request body
+    const request_data = req.body;
+
+    // Calling the fileClerk async function to retrieve metadata
+    const data = await fileClerk();
+
+    // Sending the retrieved metadata as a JSON response
+    res.json(data);
+  });
+
+
+  app.post('/list-folders', async function (req, res) {
+    // Extracting the request data from the request body
+    const request_data = req.body;
+
+    // Calling the fileClerk async function to retrieve metadata
+    const data = await fileClerk();
+
+    // Sending the retrieved metadata as a JSON response
+    res.json(data);
+  });
+
+  app.post('/list-files', async function (req, res) {
+    // Extracting the request data from the request body
+    const request_data = req.body;
+
+    // Calling the fileClerk async function to retrieve metadata
+    const data = await fileClerk();
+
+    // Sending the retrieved metadata as a JSON response
+    res.json(data);
+  });
+
+  app.post('/load-file', async function (req, res) {
+    // Extracting the request data from the request body
+    const request_data = req.body;
+
+    // Calling the fileClerk async function to retrieve metadata
+    const data = await fileClerk();
+
+    // Sending the retrieved metadata as a JSON response
+    res.json(data);
+  });
+
+  app.post('/save-file', async function (req, res) {
+    // Extracting the request data from the request body
+    const request_data = req.body;
+
+    // Calling the fileClerk async function to retrieve metadata
+    const data = await fileClerk();
+
+    // Sending the retrieved metadata as a JSON response
+    res.json(data);
+  });
+
+
+};
