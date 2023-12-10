@@ -13,6 +13,6 @@
 */
 @import "./components/styles/index.css";
 @import "./components/mark-down/mark-down.css";
-@import "./components/lnsy-edit/lnsy-edit.css";
-@import "./components/json-editor/json-editor-component.css";
+@import "./components/lnsy-edit/index.css";
 @import "./components/file-clerk/file-clerk.css";
+@import "./components/chat-gpt/chat-gpt.css";

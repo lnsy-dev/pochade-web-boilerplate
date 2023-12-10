@@ -12,6 +12,18 @@ const path = require('path');
 const fs = require('fs');
 
 
+function removeMdExtension(str) {
+  // Check if the string ends with ".md"
+  if (str.endsWith('.md')) {
+    // Remove the ".md" extension
+    return str.slice(0, -3);
+  } else {
+    // If the string doesn't end with ".md", return the original string
+    return str;
+  }
+}
+
+
 // Defining an async function with a placeholder name (lnsyEdit)
 async function lnsyEdit() {
   // This function simply returns the metadata, but it could be more complex in a real application.
@@ -32,35 +44,23 @@ module.exports = function (app) {
     res.json(data);
   });
 
-  app.post('/save-file', async function (req, res) {
-    if (!req.body.content || !req.body.file_path) {
-        return res.status(400).json({ error: 'Both content and file_path are required in the request body' });
-    }
-    // Construct the file path based on the provided file_path
-    const filePath = path.join(__dirname, '../../notebooks', req.body.file_path);
-
-    // Write the content to the file
-    fs.writeFile(filePath, req.body.content, 'utf8', (err) => {
-      if (err) {
-          return res.status(500).json({ error: 'Error saving the file' });
-      }
-      res.json({ message: 'File saved successfully' });
-    });
-
-  });
-
   app.post('/load-file', async function (req, res) {
     const request_data = req.body;
     if (!req.body.file_path) {
       return res.status(400).json({ error: 'file_path is required in the request body' });
     }
-    const filePath = path.join(__dirname, '../../notebooks', req.body.file_path);
+    const filePath = path.join(__dirname, '../../notebooks', req.body["file-id"] + '.md');
+    const file_id = 
     // Read the file
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
           const new_file = 
 `---
-{"date-created":"${new Date()}"}
+{"date-created":"${new Date()}"
+"file-id": "${req.body["file-id"]}"
+
+}
+
 ---
 `;
           fs.writeFile(filePath, new_file, 'utf8', (err) => {

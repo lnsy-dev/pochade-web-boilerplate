@@ -5,74 +5,87 @@
   endpoint is available at /file-clerk 
 
 */
+const path = require('path');
+const fs = require('fs');
+const fsPromises = require('fs').promises;
 
-// Importing metadata from a JSON file (assuming metadata.json is in the same directory as this script)
-const metadata = require('./metadata.json');
-
-// Defining an async function with a placeholder name (fileClerk)
-async function fileClerk() {
-  // This function simply returns the metadata, but it could be more complex in a real application.
-  return metadata;
-}
 
 // Exporting a function that takes an Express.js app as a parameter
 module.exports = function (app) {
   // Setting up a route handler for POST requests on a dynamic endpoint (file-clerk)
-  app.post('/file-clerk', async function (req, res) {
-    // Extracting the request data from the request body
-    const request_data = req.body;
-
-    // Calling the fileClerk async function to retrieve metadata
-    const data = await fileClerk();
-
-    // Sending the retrieved metadata as a JSON response
-    res.json(data);
+  app.post('/save-file', async function (req, res) {
+    if (!req.body.content || !req.body["file-id"]) {
+        return res.status(400).json({ error: 'Both content and file-id are required in the request body' });
+    }
+    const file_id = req.body["file-id"];
+    // Construct the file path based on the provided file_path
+    const file_path = path.join(__dirname, '../../notebook',  file_id + '.md');
+    // Write the content to the file
+    fs.writeFile(file_path, req.body.content, 'utf8', (err) => {
+      if (err) {
+          return res.status(500).json({ error: 'Error saving the file' });
+      }
+      res.json({ message: 'File saved successfully' });
+    });
   });
 
 
-  app.post('/list-folders', async function (req, res) {
-    // Extracting the request data from the request body
-    const request_data = req.body;
-
-    // Calling the fileClerk async function to retrieve metadata
-    const data = await fileClerk();
-
-    // Sending the retrieved metadata as a JSON response
-    res.json(data);
+  app.get('/list-files', async function (req, res) {
+    try {
+      const files = await fsPromises.readdir(path.join(__dirname, '../../notebook'));
+      res.json({ files });
+    } catch (err) {
+      res.status(500).json({ error: 'Error listing files' });
+    }
   });
 
-  app.post('/list-files', async function (req, res) {
-    // Extracting the request data from the request body
-    const request_data = req.body;
+  app.post('/delete-file', async function (req, res) {
+    if (!req.body["file-id"]) {
+      return res.status(400).json({ error: 'file-id is required in the request body' });
+    }
+    const file_id = req.body["file-id"];
+    const file_path = path.join(__dirname, '../../notebook', file_id + '.md');
 
-    // Calling the fileClerk async function to retrieve metadata
-    const data = await fileClerk();
-
-    // Sending the retrieved metadata as a JSON response
-    res.json(data);
+    try {
+      await fsPromises.unlink(file_path);
+      res.json({ message: 'File deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ error: 'Error deleting the file' });
+    }
   });
 
   app.post('/load-file', async function (req, res) {
-    // Extracting the request data from the request body
-    const request_data = req.body;
+    if (!req.body["file-id"]) {
+      return res.status(400).json({ error: 'file-id is required in the request body' });
+    }
+    const file_id = req.body["file-id"];
+    const file_path = path.join(__dirname, '../../notebook', file_id + '.md');
 
-    // Calling the fileClerk async function to retrieve metadata
-    const data = await fileClerk();
-
-    // Sending the retrieved metadata as a JSON response
-    res.json(data);
+    try {
+      const content = await fsPromises.readFile(file_path, 'utf8');
+      res.json({ content });
+    } catch (err) {
+      res.status(500).json({ error: 'Error loading the file' });
+    }
   });
 
-  app.post('/save-file', async function (req, res) {
-    // Extracting the request data from the request body
-    const request_data = req.body;
+  app.post('/rename-file', async function (req, res) {
+    const oldFileId = req.body["old-file-id"];
+    const newFileId = req.body["new-file-id"];
 
-    // Calling the fileClerk async function to retrieve metadata
-    const data = await fileClerk();
+    if (!oldFileId || !newFileId) {
+      return res.status(400).json({ error: 'Both old-file-id and new-file-id are required in the request body' });
+    }
 
-    // Sending the retrieved metadata as a JSON response
-    res.json(data);
+    const oldFilePath = path.join(__dirname, '../../notebook', oldFileId + '.md');
+    const newFilePath = path.join(__dirname, '../../notebook', newFileId + '.md');
+
+    try {
+      await fsPromises.rename(oldFilePath, newFilePath);
+      res.json({ message: 'File renamed successfully' });
+    } catch (err) {
+      res.status(500).json({ error: 'Error renaming the file' });
+    }
   });
-
 
 };

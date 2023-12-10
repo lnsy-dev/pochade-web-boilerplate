@@ -8,19 +8,12 @@
 */
 
 
-import { JSONEditor } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor/index.js'
-
+import { JSONEditor } from './vendor/vanilla-json-editor.js'
 
 // use methods get, set, update, and onChange to get data in or out of the editor.
 // Use updateProps to update properties.
 
 class jsonEditorComponent extends HTMLElement {
-  constructor() {
-    super();
-    // element created
-    // 
-  }
-
   connectedCallback(){
     // browser calls this method when the element is added to the document
     // (can be called many times if an element is repeatedly added/removed)
@@ -44,22 +37,12 @@ class jsonEditorComponent extends HTMLElement {
       target: this,
       props: {
         content: {json: this.content},
-        onChange: (updatedContent, previousContent, { contentErrors, patchResult }) => {
-          // content is an object { json: JSONValue } | { text: string }
-          // console.log('onChange', { updatedContent, previousContent, contentErrors, patchResult })
-          this.content = updatedContent;
-          const save_event = new CustomEvent('save', {
-            detail: {
-              content: this.content,
-              timestamp: new Date().toISOString()
-            }
-          });
-
-          this.dispatchEvent(save_event);
-
-        }
       }
     });
+  }
+
+  getData(){
+    return this.editor.get().json
   }
 
   updateData(value){
@@ -67,7 +50,14 @@ class jsonEditorComponent extends HTMLElement {
       json: value
     }
     this.editor.set(content);
-  
+  }
+
+  upsertData(obj){
+    const previous = this.editor.get().json;
+    const new_value = Object.assign(previous, obj);
+    this.editor.set({
+      json: new_value
+    });
   }
 
   static get observedAttributes() {

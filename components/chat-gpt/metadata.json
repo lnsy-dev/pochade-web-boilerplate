@@ -1,0 +1,5 @@
+{
+  "name":"chatGpt",
+  "id":"chat-gpt",
+  "description": "Chat GPT Component handles all Chat GPT Functions"
+}

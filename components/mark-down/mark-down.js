@@ -1,12 +1,22 @@
 import "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
 
+/*
+
+This regex modification uses a negative lookahead ((?![^<>]*>)) 
+to ensure that the match does not occur inside angle 
+brackets (< and >), effectively excluding matches 
+within an <svg> tag. The (^|[^<]) part ensures that 
+the match is either at the beginning of the string or not preceded by a <.
+
+ */
 function wrapHashtags(text) {
-  // Regular expression to find hashtags (words starting with #)
-  const hashtagRegex = /#([a-zA-Z0-9\-./]+)/g;
+  // Regular expression to find hashtags (words starting with #) excluding those inside <svg> tags
+  const hashtagRegex = /(^|[^<])#([a-zA-Z0-9\-./]+)(?![^<>]*>)/g;
   // Replace hashtags with <hash-tag>...</hash-tag>
-  const result = text.replace(hashtagRegex, '<hash-tag>$1</hash-tag>');
+  const result = text.replace(hashtagRegex, '$1<hash-tag>$2</hash-tag>');
   return result;
 }
+
 
 function setURLValues(obj){
   let url = window.location.origin + window.location.pathname + '?'
@@ -15,8 +25,6 @@ function setURLValues(obj){
   })
   history.pushState(obj, '', url)
 }
-
-
 
 function convertObsidianLinks(text) {
     // Regular expression to match Wikimedia-style links
@@ -43,11 +51,16 @@ class MarkdownComponent extends HTMLElement {
         });
     }
   }
-
   render(content){
     const wikimedia_to_href = convertObsidianLinks(content);
     const wrap_hashtags = wrapHashtags(wikimedia_to_href);
     this.innerHTML = marked.parse(wrap_hashtags);
+    [...document.querySelectorAll('.language-svg')].forEach(svg => {
+      const div = document.createElement('div');
+        div.innerHTML = svg.innerText;
+        svg.innerHTML = " ";
+        svg.appendChild(div);
+    });
   }
 }
 
@@ -56,20 +69,10 @@ customElements.define('mark-down', MarkdownComponent);
 class HashTag extends HTMLElement {
   connectedCallback(){
     this.addEventListener('click', (e) => {
-     setURLValues({'file_path':this.innerText + '.md'});
+     setURLValues({'file-id':this.innerText});
      window.location.assign(window.location.href)
     });
   }
-
-  static get observedAttributes() {
-    return [];
-  }
-
-  attributeChangedCallback(name, old_value, new_value){
-    switch(name){
-      default:
-    }
-  }
 }
 
-customElements.define('hash-tag', HashTag)
+customElements.define('hash-tag', HashTag);

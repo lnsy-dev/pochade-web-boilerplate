@@ -3,7 +3,9 @@
   json-editor-component
 */
 json-editor {
+  background-color: black;
   display:block;
+  border-bottom: 1px solid grey;
   --jse-theme-color: var(--bg-color);
   --jse-button-primary-background-highlight: var(--bg-color);
   --jse-button-primary-background: var(--bg-color);
@@ -11,7 +13,7 @@ json-editor {
   --jse-text-color: var(--fg-color);
   --jse-panel-background: var(--bg-color);
   --jse-panel-button-color: var(--fg-color);
-  --jse-main-border: white;
+  --jse-main-border: none;
   --jse-selection-background-inactive-color: white;
   --jse-context-menu-pointer-hover-background: white;
   --jse-theme: dark;
@@ -20,7 +22,7 @@ json-editor {
   --jse-theme-color-highlight: #467cd2;
 
   /* main, menu, modal */
-  --jse-main-border: 1px solid #4f4f4f;
+  --jse-main-border: none;
   --jse-menu-color: #fff;
   --jse-modal-background: #2f2f2f;
   --jse-modal-overlay-background: rgba(0, 0, 0, 0.5);

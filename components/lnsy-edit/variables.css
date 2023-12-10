@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+
+/* CSS */
+:root {
+  --editor-font: 'Atkinson Hyperlegible', sans-serif;
+  --bg-color: black;
+  --fg-color: white;
+  --secondary-bright-color: #00FF00;
+  --highlight-color: #F57F00;
+  --mid-tone-color: grey;
+  --editor-border: 1px solid var(--mid-tone-color);
+}
