@@ -36,12 +36,12 @@ class ForceGraphComponent extends HTMLElement {
 
     this.width = this.getAttribute('width');
     if (this.width === null) {
-      this.width = 800;
+      this.width = window.innerWidth / 2;
     }
 
     this.height = this.getAttribute('height');
     if (this.height === null) {
-      this.height = 400
+      this.height = window.innerHeight / 1.3
     }
     this.init();
   }
