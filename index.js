@@ -15,3 +15,4 @@ import "./components/mark-down/mark-down.js";
 import "./components/lnsy-edit/index.js";
 import "./components/file-clerk/file-clerk.js";
 import "./components/chat-gpt/chat-gpt.js";
+import "./components/graph-data/graph-data.js";

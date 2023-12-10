@@ -7,4 +7,6 @@ module.exports = function(app, server) {
   const fileClerk = require('./components/file-clerk/file-clerk.route.js')(app);
 
   const chatGpt = require('./components/chat-gpt/chat-gpt.route.js')(app);
+
+  const graphData = require('./components/graph-data/graph-data.route.js')(app);
 }

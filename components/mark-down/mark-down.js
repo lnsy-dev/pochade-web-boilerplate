@@ -1,4 +1,6 @@
-import "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
+import "//cdn.jsdelivr.net/npm/marked/marked.min.js";
+import "//unpkg.com/graphre/dist/graphre.js";
+import "//unpkg.com/nomnoml/dist/nomnoml.js";
 
 /*
 
@@ -16,6 +18,41 @@ function wrapHashtags(text) {
   const result = text.replace(hashtagRegex, '$1<hash-tag>$2</hash-tag>');
   return result;
 }
+
+
+/*
+This code defines a parseTextToJSON function 
+that takes the input text as a parameter and returns the 
+corresponding JSON object. The code uses regular expressions 
+to extract node names from the input text, and then it 
+constructs the nodes and edges arrays accordingly. 
+Finally, it logs the resulting JSON object to the console.
+
+ */
+
+function parseTextToJSON(inputText) {
+  const lines = inputText.trim().split('\n');
+  const nodes = [];
+  const edges = [];
+
+  lines.forEach((line) => {
+    const [source, target] = line.match(/\[([^\]]+)\]/g).map((node) => node.slice(1, -1));
+
+    if (!nodes.some((node) => node.id === source)) {
+      nodes.push({ id: source });
+    }
+
+    if (!nodes.some((node) => node.id === target)) {
+      nodes.push({ id: target });
+    }
+
+    edges.push({ source, target });
+  });
+
+  return { nodes, edges };
+}
+
+
 
 
 function setURLValues(obj){
@@ -36,10 +73,16 @@ function convertObsidianLinks(text) {
     return convertedText;
 }
 
+function sanitizeToUtf8(inputString) {
+  const encoder = new TextEncoder();
+  const utf8Bytes = encoder.encode(inputString);
+  const utf8String = new TextDecoder('utf-8').decode(utf8Bytes);
+  return utf8String;
+}
+
 class MarkdownComponent extends HTMLElement {
   connectedCallback(){
     this.src = this.getAttribute('src'); 
-
     if(this.src === null){
       const content = this.innerHTML; 
       this.render(content);
@@ -51,15 +94,20 @@ class MarkdownComponent extends HTMLElement {
         });
     }
   }
+
   render(content){
     const wikimedia_to_href = convertObsidianLinks(content);
     const wrap_hashtags = wrapHashtags(wikimedia_to_href);
-    this.innerHTML = marked.parse(wrap_hashtags);
+    const final_text = sanitizeToUtf8(wrap_hashtags)
+    this.innerHTML = marked.parse(final_text);
     [...document.querySelectorAll('.language-svg')].forEach(svg => {
       const div = document.createElement('div');
         div.innerHTML = svg.innerText;
         svg.innerHTML = " ";
         svg.appendChild(div);
+    });
+    [...document.querySelectorAll('.language-graph')].forEach(diagram => {
+      diagram.innerText = JSON.stringify(parseTextToJSON(diagram.innerText));
     });
   }
 }

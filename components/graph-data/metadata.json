@@ -1,0 +1,5 @@
+{
+  "name":"graphData",
+  "id":"graph-data",
+  "description": "Inner Text is a simple markup language to describe a graph, renders it using 3d force graph"
+}
