@@ -7,6 +7,7 @@
   See https://javascript.info/custom-elements for more information
 */
 
+
 class chatGpt extends HTMLElement {
   constructor() {
     super();
@@ -17,24 +18,33 @@ class chatGpt extends HTMLElement {
     // browser calls this method when the element is added to the document
     // (can be called many times if an element is repeatedly added/removed)
     this.innerHTML = `chatGpt initialized`;
-    this.init();
   }
 
-  async init(){
-    const data = await this.fetchData();
-    this.innerText = JSON.stringify(data);
-  }
+  async queryChatGPT(query){
 
-  async fetchData(post = {}){
-    const response = await fetch("/chat-gpt", {
+    const prompt = [{role: "user", content: query}]
+
+    console.log(prompt);
+    try {
+      const response = await fetch("/chat-gpt", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(post)
+      body: JSON.stringify(prompt),
     });
-    const data = response.json();
+
+    const data = await response.json();
+    this.innerHTML = `
+      <mark-down>${data.content}</mark-down>
+
+    `
+    this.classList.remove('loading');
     return data;
+    } catch(e){
+      this.classList.add('error');
+      this.innerText = "Error:" + JSON.stringify(e);
+    }
   }
 
   disconnectedCallback() {
@@ -48,12 +58,18 @@ class chatGpt extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return [];
+    return ['prompt'];
   }
 
   attributeChangedCallback(name, old_value, new_value){
+    if(new_value.length < 1) return
+
     switch(name){
-      default:
+    case "prompt":
+      this.query = new_value;
+      this.queryChatGPT(this.query);
+      break;
+    default:
     }
   }
 }
