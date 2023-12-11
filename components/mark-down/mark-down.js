@@ -19,6 +19,39 @@ function wrapHashtags(text) {
   return result;
 }
 
+/*
+
+This regex modification uses a negative lookahead ((?![^<>]*>)) 
+to ensure that the match does not occur inside angle 
+brackets (< and >), effectively excluding matches 
+within an <svg> tag. The (^|[^<]) part ensures that 
+the match is either at the beginning of the string or not preceded by a <.
+
+ */
+function wrapVariables(text) {
+  // Regular expression to find hashtags (words starting with #) excluding those inside <svg> tags
+  const hashtagRegex = /(^|[^<])@([a-zA-Z0-9\-./]+)(?![^<>]*>)/g;
+  // Replace hashtags with <hash-tag>...</hash-tag>
+  const result = text.replace(hashtagRegex, '$1<variable-tag>$2</variable-tag>');
+  return result;
+}
+
+/*
+
+This regex modification uses a negative lookahead ((?![^<>]*>)) 
+to ensure that the match does not occur inside angle 
+brackets (< and >), effectively excluding matches 
+within an <svg> tag. The (^|[^<]) part ensures that 
+the match is either at the beginning of the string or not preceded by a <.
+
+ */
+function wrapEmbeds(text) {
+  // Regular expression to find hashtags (words starting with #) excluding those inside <svg> tags
+  const hashtagRegex = /(^|[^<])\$([a-zA-Z0-9\-./]+)(?![^<>]*>)/g;
+  // Replace hashtags with <hash-tag>...</hash-tag>
+  const result = text.replace(hashtagRegex, '$1<embed-tag>$2</embed-tag>');
+  return result;
+}
 
 /*
 This code defines a parseTextToJSON function 
@@ -98,7 +131,10 @@ class MarkdownComponent extends HTMLElement {
   render(content){
     const wikimedia_to_href = convertObsidianLinks(content);
     const wrap_hashtags = wrapHashtags(wikimedia_to_href);
-    const final_text = sanitizeToUtf8(wrap_hashtags)
+    const wrap_variables = wrapVariables(wrap_hashtags);
+    const wrap_embed = wrapEmbeds(wrap_variables);
+
+    const final_text = wrap_embed;
     this.innerHTML = marked.parse(final_text);
     [...document.querySelectorAll('.language-svg')].forEach(svg => {
       const div = document.createElement('div');

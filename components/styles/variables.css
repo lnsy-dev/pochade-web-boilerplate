@@ -3,8 +3,12 @@
 :root {
   --bg-color: black;
   --fg-color: white;
+
   --secondary-bright-color: #00FF00;
   --highlight-color: #F57F00;
+  --secondary-highlight-color: cyan;
+  --tertiary-highlight-color: lightgrey;
+
   --mid-tone-color: grey;
 
 }

@@ -17,7 +17,6 @@ class chatGpt extends HTMLElement {
   connectedCallback(){
     // browser calls this method when the element is added to the document
     // (can be called many times if an element is repeatedly added/removed)
-    this.innerHTML = `chatGpt initialized`;
   }
 
   async queryChatGPT(query){
@@ -37,7 +36,6 @@ class chatGpt extends HTMLElement {
     const data = await response.json();
     this.innerHTML = `
       <mark-down>${data.content}</mark-down>
-
     `
     this.classList.remove('loading');
     return data;

@@ -25,3 +25,21 @@ hash-tag {
   padding-left: 3pt;
   padding-right: 3pt;
 }
+
+variable-tag {
+  box-sizing: border-box;
+  background-color: var(--secondary-highlight-color);
+  color: black;
+  cursor: pointer;
+  padding-left: 3pt;
+  padding-right: 3pt;
+}
+
+embed-tag {
+  box-sizing: border-box;
+  background-color: var(--tertiary-highlight-color);
+  color: black;
+  cursor: pointer;
+  padding-left: 3pt;
+  padding-right: 3pt;
+}

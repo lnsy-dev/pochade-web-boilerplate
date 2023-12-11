@@ -9,4 +9,6 @@ module.exports = function(app, server) {
   const chatGpt = require('./components/chat-gpt/chat-gpt.route.js')(app);
 
   const graphData = require('./components/graph-data/graph-data.route.js')(app);
+
+  const geoMap = require('./components/geo-map/geo-map.route.js')(app);
 }
