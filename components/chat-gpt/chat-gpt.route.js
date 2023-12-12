@@ -6,30 +6,9 @@
 
 */
 const dotenv = require("dotenv")
-dotenv.config()
+dotenv.config();
 
-const { OpenAI } = require("openai");
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-
-});
-
-const queryChatGPT = async (prompt) => {
-  console.log('Looking for prompt', prompt);
-  const completion = await openai.chat.completions.create({
-    messages: prompt,
-    model: "gpt-3.5-turbo",
-  });
-
-  console.log(completion.choices[0].message);
-
-  return completion.choices[0].message;
-
-};
-
-
-
+const { queryChatGPT } = require('./chat-gpt.server.js')
 
 // Importing metadata from a JSON file (assuming metadata.json is in the same directory as this script)
 const metadata = require('./metadata.json');

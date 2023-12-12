@@ -4,4 +4,31 @@
 */
 chat-gpt {
   display:block;
+  color: var(--highlight-color);
+}
+
+chat-gpt:before {
+  content: "AI generated text";
+  display: block;
+  font-style: italic;
+  color: greenyellow; /* You can adjust the color to your preference */
+}
+
+
+notice {
+  color: green;
+}
+
+
+hans-gpt {
+  display:block;
+  color: var(--highlight-color);
+}
+
+hans-gpt:before {
+  content: "AI generated text";
+  display: block;
+  font-style: italic;
+  color: greenyellow; /* You can adjust the color to your preference */
+  margin-bottom: 10px; /* Adjust spacing as needed */
 }

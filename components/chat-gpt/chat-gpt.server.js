@@ -14,10 +14,7 @@ const queryChatGPT = async (prompt) => {
     model: "gpt-3.5-turbo",
   });
 
-  console.log(completion.choices[0].message)
-
   return completion.choices[0].message;
-
 };
 
 module.exports = {
