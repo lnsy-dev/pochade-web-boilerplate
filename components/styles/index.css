@@ -23,3 +23,15 @@ input, textarea, select {
 label {
   padding-bottom: 0.5em;
 }
+
+error {
+  color: var(--error-color);
+}
+
+warning {
+  color: var(--warning-color);
+}
+
+notification {
+  color: var(--notification-color);
+} 

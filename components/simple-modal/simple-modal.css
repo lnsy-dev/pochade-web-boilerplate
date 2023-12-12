@@ -9,8 +9,6 @@ simple-modal {
 simple-modal dialog {
   padding: 0;
   z-index: 9000;
-  width: 100%;
-  margin: 0;
   box-sizing: border-box;
 }
 

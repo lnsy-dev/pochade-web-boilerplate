@@ -7,6 +7,21 @@
   See https://javascript.info/custom-elements for more information
 */
 
+const datalist = [
+  {
+    name: 'Geo Map',
+    getComponentTemplate: function(keys){
+      `<geo-map></geo-map>`
+    }
+  },
+  {
+    name: 'Generate New component', 
+    getComponentTemplate: function(keys){
+      `<generate-new-component></generate-new-component`
+    }
+  }
+]
+
 class controlPanel extends HTMLElement {
   constructor() {
     super();
@@ -24,6 +39,20 @@ class controlPanel extends HTMLElement {
         // Your code to handle Ctrl + P goes here
       }
     });
+
+    this.createDataList();
+  }
+
+  createDataList(){
+    this.datalist = document.createElement('datalist');
+    this.datalist.setAttribute('id', 'control-panel-datalist');
+
+    const dataList_content = datalist.map(d => {
+      return `<option value="${d.name}"/>`
+    }).join('');
+
+    this.datalist.innerHTML = dataList_content;
+    this.appendChild(this.datalist);
   }
 
   submitCommand(value){
@@ -43,6 +72,7 @@ class controlPanel extends HTMLElement {
     `
     this.panel_input = document.createElement('input'); 
     this.panel_input.setAttribute('name', 'panel-input');
+    this.panel_input.setAttribute('list', 'control-panel-datalist');
     simple_modal.appendChild(this.panel_input);
     this.appendChild(simple_modal);
 
