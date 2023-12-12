@@ -7,34 +7,7 @@
   See https://javascript.info/custom-elements for more information
 */
 
-const datalist = [
-  {
-    name: 'Geo Map',
-    render: function(keys){
-      return `<geo-map id=${keys.ID}
-  id="geo_map"
-  accesstoken=${keys.GEO_MAP_ACCESS_TOKEN}
-  styleurl=${keys.GEO_MAP_STYLE_URL}
-  latitude= 33.86716840617632
-  longitude=-118.12701323464881
-  zoom=9
-  bearing=0
-  pitch=45
-  navigation
-  geolocate
-  geocoder=true
->
-</geo-map>`
-    }
-  },
-  {
-    name: 'Generate New component', 
-    render: function(keys){
-      return `<generate-new-component></generate-new-component`
-    }
-  }
-]
-
+import {datalist} from './control-panel-commands.js';
 async function getKeys(){
   return await fetch('/get-keys')
     .then(res => res.json())
@@ -84,7 +57,7 @@ class controlPanel extends HTMLElement {
     if(command){
       const keys = await getKeys();
 
-      keys.id = crypto.randomUUID();
+      keys.ID = crypto.randomUUID();
       const template = command.render(keys);
 
       lnsy_edit.insertTextAtPosition(template, this.cursor_position);
