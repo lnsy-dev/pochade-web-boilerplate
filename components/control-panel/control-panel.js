@@ -10,17 +10,38 @@
 const datalist = [
   {
     name: 'Geo Map',
-    getComponentTemplate: function(keys){
-      `<geo-map></geo-map>`
+    render: function(keys){
+      return `<geo-map id=${keys.ID}
+  id="geo_map"
+  accesstoken=${keys.GEO_MAP_ACCESS_TOKEN}
+  styleurl=${keys.GEO_MAP_STYLE_URL}
+  latitude= 33.86716840617632
+  longitude=-118.12701323464881
+  zoom=9
+  bearing=0
+  pitch=45
+  navigation
+  geolocate
+  geocoder=true
+>
+</geo-map>`
     }
   },
   {
     name: 'Generate New component', 
-    getComponentTemplate: function(keys){
-      `<generate-new-component></generate-new-component`
+    render: function(keys){
+      return `<generate-new-component></generate-new-component`
     }
   }
 ]
+
+async function getKeys(){
+  return await fetch('/get-keys')
+    .then(res => res.json())
+    .then(res => res.keys)
+}
+
+
 
 class controlPanel extends HTMLElement {
   constructor() {
@@ -41,9 +62,11 @@ class controlPanel extends HTMLElement {
     });
 
     this.createDataList();
+    getKeys().then(res => console.log(res));
   }
 
   createDataList(){
+
     this.datalist = document.createElement('datalist');
     this.datalist.setAttribute('id', 'control-panel-datalist');
 
@@ -55,11 +78,22 @@ class controlPanel extends HTMLElement {
     this.appendChild(this.datalist);
   }
 
-  submitCommand(value){
+  async submitCommand(value){
     const lnsy_edit = document.querySelector('lnsy-edit');
-    lnsy_edit.insertTextAtPosition(value, this.cursor_position);
-    this.simple_modal.remove();
-    lnsy_edit.focus();
+    const command = datalist.find(d => d.name === value);
+    if(command){
+      const keys = await getKeys();
+
+      keys.id = crypto.randomUUID();
+      const template = command.render(keys);
+
+      lnsy_edit.insertTextAtPosition(template, this.cursor_position);
+      this.simple_modal.remove();
+      lnsy_edit.focus();
+
+    } else {
+      console.log('no command found');
+    }
   }
 
   showPanel(){
