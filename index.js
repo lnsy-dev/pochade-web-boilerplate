@@ -18,3 +18,6 @@ import "./components/file-clerk/file-clerk.js";
 import "./components/chat-gpt/chat-gpt.js";
 import "./components/graph-data/graph-data.js";
 import "./components/geo-map/geo-map.js";
+import "./components/simple-modal/simple-modal.js";
+
+import "./components/control-panel/control-panel.js";

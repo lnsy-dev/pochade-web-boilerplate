@@ -19,3 +19,6 @@
 @import "./components/chat-gpt/chat-gpt.css";
 @import "./components/graph-data/graph-data.css";
 @import "./components/geo-map/geo-map.css";
+@import "./components/simple-modal/simple-modal.css";
+
+@import "./components/control-panel/control-panel.css";

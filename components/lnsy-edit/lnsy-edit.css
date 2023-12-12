@@ -6,8 +6,9 @@ lnsy-edit
 lnsy-edit {
   font-family: var(--editor-font);
   display:block;
-  border: 1px solid grey;
+  border-right: 1px solid grey;
   padding: 0 1em 14em 1em;
+  min-height: 100vh;
 }
 
 lnsy-edit summary {

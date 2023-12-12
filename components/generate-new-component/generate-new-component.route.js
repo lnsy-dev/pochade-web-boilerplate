@@ -19,7 +19,7 @@ const metadata = require('./metadata.json');
   Get Templates
 */
 
-function getTemplates(directoryPath = './dev-components/generate-new-component/component-templates'){
+function getTemplates(directoryPath = './components/generate-new-component/component-templates'){
   return new Promise((res, rej) => {
     fs.readdir(directoryPath, { withFileTypes: true }, (err, files) => {
       if (err) {

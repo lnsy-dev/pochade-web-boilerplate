@@ -11,4 +11,8 @@ module.exports = function(app, server) {
   const graphData = require('./components/graph-data/graph-data.route.js')(app);
 
   const geoMap = require('./components/geo-map/geo-map.route.js')(app);
+
+  const simpleModal = require('./components/simple-modal/simple-modal.route.js')(app);
+
+  const controlPanel = require('./components/control-panel/control-panel.route.js')(app);
 }

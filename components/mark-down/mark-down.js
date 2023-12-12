@@ -94,6 +94,14 @@ function setURLValues(obj){
   history.pushState(obj, '', url)
 }
 
+function generateURLFromObject(obj){
+  let url = window.location.origin + window.location.pathname + '?';
+  Object.keys(obj).forEach(key => {
+    url += `&${key}=${obj[key]}`;
+  });
+  return url;
+}
+
 function convertObsidianLinks(text) {
     // Regular expression to match Wikimedia-style links
     var wikiLinkRegex = /\[\[([^\]]+)\]\]/g;
@@ -151,8 +159,17 @@ customElements.define('mark-down', MarkdownComponent);
 class HashTag extends HTMLElement {
   connectedCallback(){
     this.addEventListener('click', (e) => {
-     setURLValues({'file-id':this.innerText});
-     window.location.assign(window.location.href)
+      const open_in_new_tab = e.ctrlKey;
+      if (open_in_new_tab) {
+        const new_url = generateURLFromObject({'file-id':this.innerText})
+        const newTab = window.open(new_url, '_blank');
+        if (newTab) {
+          newTab.focus();
+        }
+      } else {
+        setURLValues({'file-id':this.innerText});
+        window.location.assign(window.location.href);
+      }
     });
   }
 }

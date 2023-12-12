@@ -1,0 +1,5 @@
+{
+  "name":"controlPanel",
+  "id":"control-panel",
+  "description": "control panel opens with ctrl-p. It inserts text into the editor at the current cursor position"
+}

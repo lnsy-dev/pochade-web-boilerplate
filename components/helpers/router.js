@@ -45,11 +45,21 @@ class RouterComponent extends HTMLElement {
   }
 
   setURLValues(obj){
-    let url = window.location.origin + window.location.pathname + '?'
+    let url = window.location.origin + window.location.pathname + '?';
     Object.keys(obj).forEach(key => {
       url += `&${key}=${obj[key]}`
-    })
-    history.pushState(obj, '', url)
+    });
+    history.pushState(obj, '', url);
+  }
+
+  generateURLFromObject(obj){
+    let url = window.location.origin + window.location.pathname + '?';
+    Object.keys(obj).forEach(key => {
+      url += `&${key}=${obj[key]}`;
+    });
+
+    return url;
+
   }
 
   static get observedAttributes() {

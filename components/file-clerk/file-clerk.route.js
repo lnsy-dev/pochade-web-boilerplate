@@ -100,4 +100,23 @@ module.exports = function (app) {
     }
   });
 
+  app.get('/file-exists', async function (req, res) {
+    if (!req.query["file-id"]) {
+      return res.status(400).json({ error: 'file-id is required in the query parameters' });
+    }
+
+    const file_id = req.query["file-id"];
+    const file_path = path.join(__dirname, '../../notebook', file_id + '.md');
+
+    try {
+      // Check if the file exists
+      const exists = await fsPromises.access(file_path, fs.constants.F_OK)
+        .then(() => true)
+        .catch(() => false);
+
+      res.json({ exists });
+    } catch (err) {
+      res.status(500).json({ error: 'Error checking file existence' });
+    }
+  });
 };

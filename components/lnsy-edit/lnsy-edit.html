@@ -35,7 +35,7 @@
 <body>
 
   <router-component id="router_component"></router-component>
-
+  <control-panel></control-panel>
   <two-columns>
 
     <lnsy-edit id="lnsy_edit" file-path="index.md"></lnsy-edit>
@@ -126,10 +126,10 @@
       if(url_values["file-id"]){
         const loaded_file = await loadFile(url_values["file-id"]);
         lnsy_edit.loadMarkdown(loaded_file);
-        if(url_values["render-immediately"] === true){
+        // if(url_values["render-immediately"] === true){
           const markdown = lnsy_edit.getContent();
           renderMarkdown(markdown);
-        }
+        // }
       }
     });
 

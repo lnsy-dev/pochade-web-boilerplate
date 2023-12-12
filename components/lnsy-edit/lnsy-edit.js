@@ -47,7 +47,7 @@ class LNSYEdit extends HTMLElement {
   connectedCallback(){
     const details = document.createElement('details');
     details.innerHTML = `<summary></summary>`; 
-    details.setAttribute('open', true);
+    // details.setAttribute('open', true);
 
     const button_bar = document.createElement('button-bar');
     const save_button = document.createElement('button');
@@ -142,6 +142,18 @@ class LNSYEdit extends HTMLElement {
     }
 
     this.loadData(content, metadata);
+  }
+
+  getCursorPosition(){
+    return this.editor.getCursor();
+  }
+
+  insertTextAtPosition(text, cursor){
+    this.editor.replaceRange(text, cursor);
+  }
+
+  focus(){
+    this.editor.focus();
   }
 
   saveData(){

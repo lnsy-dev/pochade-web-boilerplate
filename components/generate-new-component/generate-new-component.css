@@ -1,0 +1,28 @@
+generate-new-component {
+  display: block;
+  max-width: 50%;
+  margin: auto;
+}
+
+generate-new-component input {
+  width: 100%;
+  display:block;
+  margin-bottom: 1em;
+}
+
+generate-new-component label {
+  width: 100%;
+  display: block;
+}
+
+generate-new-component textarea {
+  width: 100%;
+  display: block;
+  margin-bottom: 1em;
+}
+
+generate-new-component select {
+  width: 100%;
+  display: block;
+  margin-bottom: 1em;
+}

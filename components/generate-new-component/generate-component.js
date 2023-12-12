@@ -66,7 +66,7 @@ async function createNewComponent(component_name, component_template = 'default'
   });
 
   // Get the path for the component template
-  const template_path = path.join(root, `./dev-components/generate-new-component/component-templates/${component_template}`);
+  const template_path = path.join(root, `./components/generate-new-component/component-templates/${component_template}`);
   // Generate the new component's folder from the component-template folder
   await fs.readdir(template_path, function (err, files) {
     if (err) {

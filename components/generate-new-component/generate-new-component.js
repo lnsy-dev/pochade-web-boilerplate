@@ -156,7 +156,7 @@ class generateComponent extends HTMLElement {
         component_names.innerHTML = `
           <h2>component div will look like:</h2>
           <code>
-            &lt;${dash_case_name}&gt;&lt;/${dash_case_name}&gt;
+&lt;${dash_case_name}&gt;&lt;/${dash_case_name}&gt;
           </code>
           <h2>Component Name will be</h2>
           <p>${camel_case_name}</p>
@@ -175,9 +175,13 @@ class generateComponent extends HTMLElement {
   async handleSubmit(){
     const values = getFormValues(this.form);
     const res = this.createComponent(values); 
+
+    const dash_case_name = toDashCase(component_name);
+
     this.innerHTML = `
       <h1>Created a new Component:</h1>
-      <code>${JSON.stringify(res)}</code>
+      <h3>Copy and paste this to create the new element:</h3>
+      <code>&lt;${dash_case_name}&gt;&lt;/${dash_case_name}&gt;</code>
     `
 
   }

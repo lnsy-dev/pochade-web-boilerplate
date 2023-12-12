@@ -1,0 +1,31 @@
+/*
+  controlPanel
+  control-panel
+*/
+control-panel {
+  width: 0px;
+  height: 0px;
+  display:inline;
+}
+
+control-panel dialog {
+  width: 100%;
+  background-color: var(--bg-color);
+  padding: 0;
+  z-index: 9000;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+control-panel dialog input {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 4em;
+  font-size: 150%;
+  border:none;
+  background-color: var(--bg-color);
+}

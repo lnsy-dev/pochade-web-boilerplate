@@ -1,0 +1,5 @@
+{
+  "name":"simpleModal",
+  "id":"simple-modal",
+  "description": "Simple Modal uses the <dialog> tag to generate a new modal"
+}
