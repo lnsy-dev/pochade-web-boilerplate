@@ -35,7 +35,6 @@ class controlPanel extends HTMLElement {
     });
 
     this.createDataList();
-    getKeys().then(res => console.log(res));
   }
 
   createDataList(){

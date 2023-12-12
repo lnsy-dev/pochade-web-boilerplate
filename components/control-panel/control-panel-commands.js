@@ -62,5 +62,12 @@ export const datalist = [
 
       `
     }
+  }, 
+  {
+    name: 'Help',
+    render: function(keys){
+      return `Click this for help: #help`
+    }
   }
+
 ]

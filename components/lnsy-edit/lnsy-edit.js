@@ -85,6 +85,7 @@ class LNSYEdit extends HTMLElement {
         reader.readAsText(file);
       }
     });
+
     load_file_container.addEventListener('click', (e) => {
       load_file.click();
     });
@@ -105,7 +106,9 @@ class LNSYEdit extends HTMLElement {
       theme:'lnsy-edit',
       autoCloseTags:true,
       lineWrapping: true,
-      fencedCodeBlockHighlighting: true
+      fencedCodeBlockHighlighting: true,
+      rulers: [{ column: 80, color: "#fff", lineStyle: "dashed" }],
+
     });
 
     this.editor.setOption("extraKeys", {
@@ -166,7 +169,6 @@ class LNSYEdit extends HTMLElement {
     const json_data = this.json_editor.getData();
     const editor_content = this.editor.getValue();
     const markdown_content = this.getMarkdown();
-    console.log(json_data,editor_content);
     const save_event = new CustomEvent('save', {
       detail: {
         metadata: json_data,
