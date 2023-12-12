@@ -12,6 +12,7 @@
 
 */
 @import "./components/styles/index.css";
+@import "./components/generate-new-component/generate-new-component.css";
 @import "./components/mark-down/mark-down.css";
 @import "./components/lnsy-edit/index.css";
 @import "./components/file-clerk/file-clerk.css";

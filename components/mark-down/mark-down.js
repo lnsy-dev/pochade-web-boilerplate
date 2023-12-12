@@ -1,6 +1,4 @@
 import "//cdn.jsdelivr.net/npm/marked/marked.min.js";
-import "//unpkg.com/graphre/dist/graphre.js";
-import "//unpkg.com/nomnoml/dist/nomnoml.js";
 
 /*
 

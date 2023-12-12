@@ -28,6 +28,7 @@
 const express = require('express');  // Express.js framework for building web applications
 const app = express();              // Create an instance of the Express application
 const server = require('http').Server(app);  // Create an HTTP server using the Express app
+const path = require('path');
 
 // Load environment variables from a .env file if present
 const dotenv = require("dotenv");
@@ -46,7 +47,6 @@ app.use(express.json());
 // app.use('/', express.static('./notebook')); // Serve files in the 'components' directory at the root URL
 
 app.use('/', express.static('./components')); // Serve files in the 'components' directory at the root URL
-app.use('/dev-components', express.static('./dev-components')); // Serve files in the 'components' directory under '/components' URL
 
 app.use('/components', express.static('./components')); // Serve files in the 'components' directory under '/components' URL
 app.use('/', express.static('./docs')); // Serve files in the 'components' directory under '/components' URL
@@ -57,6 +57,11 @@ app.use("/index.js", express.static(__dirname + '/index.js')); // Serve 'index.j
 
 // Import and use routes defined in the 'routes.js' module, passing the Express app as a parameter
 const routes = require('./routes.js')(app);
+
+// Serve LNSY Edit on first hit
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'components', 'lnsy-edit', 'lnsy-edit.html'));
+});
 
 // Start the server and listen on the specified PORT
 app.listen(PORT, () => {

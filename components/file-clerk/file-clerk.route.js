@@ -60,12 +60,24 @@ module.exports = function (app) {
     }
     const file_id = req.body["file-id"];
     const file_path = path.join(__dirname, '../../notebook', file_id + '.md');
-
     try {
       const content = await fsPromises.readFile(file_path, 'utf8');
       res.json({ content });
     } catch (err) {
-      res.status(500).json({ error: 'Error loading the file' });
+      const new_file = 
+`---
+{"date-created":"${new Date()}",
+"file-id": "${req.body["file-id"]}"}
+---
+        
+`;
+      await fsPromises.writeFile(file_path, new_file, 'utf8', (err) => {
+        if (err) {return res.status(500)}
+      });
+
+      const content = await fsPromises.readFile(file_path, 'utf8');
+      res.json({ content });
+
     }
   });
 

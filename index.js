@@ -11,6 +11,7 @@
 
 */
 import "./components/helpers/helpers.js";
+import "./components/generate-new-component/generate-new-component.js";
 import "./components/mark-down/mark-down.js";
 import "./components/lnsy-edit/index.js";
 import "./components/file-clerk/file-clerk.js";

@@ -207,6 +207,14 @@ class LNSYEdit extends HTMLElement {
     this.editor.setValue(content);
   }
 
+  getContent(){
+    return this.editor.getValue();
+  }
+
+  getMetadata(){
+    return this.json_editor.getData();
+  }
+
   getMarkdown(){
     const json_data = this.json_editor.getData();
     const editor_content = this.editor.getValue();

@@ -69,6 +69,7 @@
     function saveFile(metadata, content, markdown){
       renderMarkdown(content);
 
+
       return fetch('/save-file', {
         method: 'POST',
         headers: {
@@ -94,55 +95,48 @@
       });
     }
 
-    // function loadFile(file_id){
-    //   return fetch('/load-file', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ file_id })
-    //   })
-    //   .then(response => {
-    //       if (!response.ok) {
-    //           throw new Error(`HTTP error! Status: ${response.status}`);
-    //       }
-    //       return response.text();
-    //   })
-    //   .then(fileContent => {
+    function loadFile(file_id){
+      return fetch('/load-file', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "file-id":file_id })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(fileContent => {
+          return fileContent.content;
+      })
+      .catch(error => {
+          console.error('Fetch Error:', error);
+      });
 
-    //       // Handle the file content, for example, log it to the console
-    //       const json = parseJSONFrontmatter(fileContent);
-    //       json_editor.updateData(json);
-    //       const cleaned_content = removeFrontMatter(fileContent);
-    //       lnsy_edit.editor.setValue(cleaned_content);
-    //       renderMarkdown(cleaned_content);
-    //   })
-    //   .catch(error => {
-    //       console.error('Fetch Error:', error);
-    //   });
-
-    // }
+    }
 
 
-    // // What happens when the window first loads
-    // window.addEventListener('load', async function(){
-    //   // get the URL Values, use it to load a file
-    //   const url_values = router_component.getURLValues();
-    //   if(url_values.file_path){
-    //     editor_route.value = url_values.file_path;
-    //   }
-    //   loadFile(editor_route.value);
-
-    // });
+    // What happens when the window first loads
+    window.addEventListener('load', async function(){
+      // get the URL Values, use it to load a file
+      const url_values = router_component.getURLValues();
+      if(url_values["file-id"]){
+        const loaded_file = await loadFile(url_values["file-id"]);
+        lnsy_edit.loadMarkdown(loaded_file);
+        if(url_values["render-immediately"] === true){
+          const markdown = lnsy_edit.getContent();
+          renderMarkdown(markdown);
+        }
+      }
+    });
 
 
     // // router_component.addEventListener('hashChanged', (e) => {
     // //   console.log(e.detail);
     // // })
-
-    // router_component.addEventListener('paramsChanged', (e) => {
-    //   console.log(e.detail);
-    // })
 
     // load_button.addEventListener('click', async (e) => {
     //   e.preventDefault();
@@ -164,14 +158,7 @@
       const URL_values = {
         "file-id":metadata["file-id"]
       }
-
-      if(metadata["notebook"]){
-
-      }
-
-      router_component.setURLValues({
-
-      });
+      router_component.setURLValues(URL_values);
     })
       </script>
 
