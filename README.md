@@ -1,3 +1,6 @@
+
+This project has been superseded by https://github.com/lnsy-dev/pochade-js. Use that one instead.
+
 # Pochade AI Authoring Environment
 
 ![alt text](/pochade.png)
